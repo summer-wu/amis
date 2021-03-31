@@ -38,7 +38,7 @@ if (process.env.NODE_ENV === 'production') {
   ContextPath = '/amis';
 }
 
-export function getContextPath() {
+function getContextPath() {
   return ContextPath;
 }
 
@@ -130,7 +130,7 @@ class BackTop extends React.PureComponent {
 }
 // @ts-ignore
 @withRouter // @ts-ignore
-export class App extends React.PureComponent<{
+class AppClass extends React.PureComponent<{
   location: Location;
 }> {
   state = {
@@ -506,6 +506,7 @@ export class App extends React.PureComponent<{
   }
 
   render() {
+    console.trace('App.tsx render');
     const theme = this.state.theme;
     const location = this.props.location;
 
@@ -642,12 +643,12 @@ function navigations2route(navigations) {
   return routes;
 }
 
-export default function entry({pathPrefix}) {
+function AppEntry({pathPrefix}) {
   // PathPrefix = pathPrefix || DocPathPrefix;
   const locate = 'zh-CN'; // 暂时不支持切换，因为目前只有中文文档
   return (
     <Router history={browserHistory}>
-      <Route component={App}>
+      <Route component={AppClass}>
         <Redirect
           from={`${ContextPath}/`}
           to={`${ContextPath}/${locate}/docs/index`}
@@ -719,3 +720,5 @@ export default function entry({pathPrefix}) {
     </Router>
   );
 }
+
+export {AppEntry, AppClass, getContextPath};
