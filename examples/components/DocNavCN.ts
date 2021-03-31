@@ -1,6 +1,17 @@
 import makeMarkdownRenderer from './MdRenderer';
+interface INavigationChild {
+  label: string;
+  path: string;
+  getComponent: Function;
+}
 
-export default [
+interface INavigation {
+  label: string;
+  children: INavigationChild[];
+}
+
+// 配置左侧导航条
+const docNavCN_navigations: INavigation[] = [
   {
     // prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
     label: '📌  开始',
@@ -214,3 +225,5 @@ export default [
     ]
   }
 ];
+
+export default docNavCN_navigations;
