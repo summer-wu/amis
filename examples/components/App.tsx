@@ -721,4 +721,4 @@ function AppEntry({pathPrefix}) {
   );
 }
 
-export {AppEntry, AppClass, getContextPath};
+export {AppEntry};
