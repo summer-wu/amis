@@ -1,4 +1,5 @@
-export default {
+import {RootSchema} from '../../../src/schema';
+const page_schema: RootSchema = {
   type: 'page',
   title: '标题',
   remark: '提示 Tip',
@@ -25,3 +26,4 @@ export default {
   toolbar: '工具栏',
   initApi: '/api/mock2/page/initDataError'
 };
+export default page_schema;
