@@ -245,7 +245,7 @@ fis.match('monaco-editor/**', {
   packTo: null
 });
 
-if (fis.project.currentMedia() === 'publish') {
+function media_public() {
   const publishEnv = fis.media('publish');
   publishEnv.get('project.ignore').push('lib/**');
   publishEnv.set('project.files', ['/scss/**', '/src/**']);
@@ -356,7 +356,9 @@ if (fis.project.currentMedia() === 'publish') {
   publishEnv.match('_*.scss', {
     release: false
   });
-} else if (fis.project.currentMedia() === 'publish-sdk') {
+}
+
+function media_publish_sdk() {
   const env = fis.media('publish-sdk');
 
   fis.on('compile:end', function (file) {
@@ -420,11 +422,11 @@ if (fis.project.currentMedia() === 'publish') {
 
   env.match('/examples/mod.js', {
     isMod: false,
-    optimizer: fis.plugin('uglify-js')
+    // optimizer: fis.plugin('uglify-js')
   });
 
   env.match('*.{js,jsx,ts,tsx}', {
-    optimizer: fis.plugin('uglify-js'),
+    // optimizer: fis.plugin('uglify-js'),
     moduleId: function (m, path) {
       return fis.util.md5('amis-sdk' + path);
     }
@@ -567,7 +569,9 @@ if (fis.project.currentMedia() === 'publish') {
       })
     ]
   });
-} else if (fis.project.currentMedia() === 'gh-pages') {
+}
+
+function media_gh_pages() {
   fis.match('*-ie11.scss', {
     postprocessor: convertSCSSIE11
   });
@@ -872,6 +876,14 @@ if (fis.project.currentMedia() === 'publish') {
   ghPages.match('docs.json', {
     domain: null
   });
+}
+
+if (fis.project.currentMedia() === 'publish') {
+  media_public();
+} else if (fis.project.currentMedia() === 'publish-sdk') {
+  media_publish_sdk();
+} else if (fis.project.currentMedia() === 'gh-pages') {
+  media_gh_pages();
 }
 
 // function docsGennerator(contents, file) {
