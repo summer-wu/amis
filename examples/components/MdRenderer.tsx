@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import React from 'react';
+import React, {ClassType, ComponentType} from 'react';
 import ReactDOM from 'react-dom';
 import {getTheme, render} from '../../src/index';
 import axios from 'axios';
@@ -12,6 +12,14 @@ import {Portal} from 'react-overlays';
 import classnames from 'classnames';
 import {Link} from 'react-router';
 import Play from './Play';
+
+interface IMarkdownDocument {
+  toc: {
+    children: any;
+  };
+  title?: string;
+  html: string;
+}
 
 class CodePreview extends React.Component<any> {
   state = {
@@ -37,11 +45,15 @@ function eachDom(dom: HTMLElement, iterator: (dom: HTMLElement) => void) {
   }
 }
 
-class Preview extends React.Component {
+interface IPreviewProps {
+  doc: IMarkdownDocument;
+}
+// 展示html（markdown转换而来）
+class Preview extends React.Component<IPreviewProps> {
   static displayName = 'MarkdownRenderer';
   ref = null;
   doms = [];
-  constructor(props) {
+  constructor(props:IPreviewProps) {
     super(props);
     this.divRef = this.divRef.bind(this);
   }
@@ -158,8 +170,8 @@ class Preview extends React.Component {
   }
 }
 
-export default function (doc) {
-  return class extends React.Component {
+function makeMarkdownRenderer(doc: IMarkdownDocument): ComponentType {
+  class MarkdownRenderer extends React.Component {
     popoverDom = null;
 
     state = {
@@ -309,5 +321,7 @@ export default function (doc) {
         </>
       );
     }
-  };
+  }
+  return MarkdownRenderer;
 }
+export default makeMarkdownRenderer;

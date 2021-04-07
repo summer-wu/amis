@@ -126,6 +126,7 @@ export default {
               md: 7,
               columnClassName: 'pl-0.5 pr-1',
               controls: [
+
                 {
                   component(props: any) {
                     return (

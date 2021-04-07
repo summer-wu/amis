@@ -5,39 +5,18 @@ export default {
   body: {
     type: 'crud',
     api: '/api/sample',
-    // api: "/api/mock2/crud/table?waitSeconds=100000",
-    mode: 'cards',
-    defaultParams: {
-      perPage: 12
-    },
-    // fixAlignment: true,
-    // masonryLayout: true,
-    filter: {
+    /* api: "/api/mock2/crud/table?waitSeconds=100000",*/ mode: 'cards',
+    defaultParams: {perPage: 12},
+    /* fixAlignment: true,*/ /* masonryLayout: true,*/ filter: {
       title: '条件搜索',
       submitText: '',
       controls: [
-        {
-          type: 'text',
-          name: 'keywords',
-          placeholder: '通过关键字搜索',
-          addOn: {
-            label: '搜索',
-            type: 'submit'
-          }
-        },
-        {
-          type: 'plain',
-          text: '这只是个示例, 目前搜索对查询结果无效.'
-        }
+        {type: 'text', name: 'keywords', placeholder: '通过关键字搜索', addOn: {label: '搜索', type: 'submit'}},
+        {type: 'plain', text: '这只是个示例, 目前搜索对查询结果无效.'}
       ]
     },
     bulkActions: [
-      {
-        label: '批量删除',
-        actionType: 'ajax',
-        api: 'delete:/api/sample/${ids|raw}',
-        confirmText: '确定要批量删除?'
-      },
+      {label: '批量删除', actionType: 'ajax', api: 'delete:/api/sample/${ids|raw}', confirmText: '确定要批量删除?'},
       {
         label: '批量修改',
         actionType: 'dialog',
@@ -48,15 +27,8 @@ export default {
             type: 'form',
             api: '/api/sample/bulkUpdate2',
             controls: [
-              {
-                type: 'hidden',
-                name: 'ids'
-              },
-              {
-                type: 'text',
-                name: 'engine',
-                label: 'Engine'
-              }
+              {type: 'hidden', name: 'ids'},
+              {type: 'text', name: 'engine', label: 'Engine'}
             ]
           }
         }
@@ -70,8 +42,7 @@ export default {
         title: '$engine',
         subTitle: '$platform',
         subTitlePlaceholder: '暂无说明',
-        avatar:
-          '<%= data.avatar || "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1575350573496/4873dbfaf6a5.png" %>',
+        avatar: '<%= data.avatar || "https://internal-amis-res.cdn.bcebos.com/images/2019-12/1575350573496/4873dbfaf6a5.png" %>',
         avatarClassName: 'pull-left thumb b-3x m-r'
       },
       actions: [
@@ -84,51 +55,17 @@ export default {
             body: {
               type: 'form',
               controls: [
-                {
-                  type: 'static',
-                  name: 'engine',
-                  label: 'Engine'
-                },
-                {
-                  type: 'divider'
-                },
-                {
-                  type: 'static',
-                  name: 'browser',
-                  label: 'Browser'
-                },
-                {
-                  type: 'divider'
-                },
-                {
-                  type: 'static',
-                  name: 'platform',
-                  label: 'Platform(s)'
-                },
-                {
-                  type: 'divider'
-                },
-                {
-                  type: 'static',
-                  name: 'version',
-                  label: 'Engine version'
-                },
-                {
-                  type: 'divider'
-                },
-                {
-                  type: 'static',
-                  name: 'grade',
-                  label: 'CSS grade'
-                },
-                {
-                  type: 'divider'
-                },
-                {
-                  type: 'html',
-                  html:
-                    '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
-                }
+                {type: 'static', name: 'engine', label: 'Engine'},
+                {type: 'divider'},
+                {type: 'static', name: 'browser', label: 'Browser'},
+                {type: 'divider'},
+                {type: 'static', name: 'platform', label: 'Platform(s)'},
+                {type: 'divider'},
+                {type: 'static', name: 'version', label: 'Engine version'},
+                {type: 'divider'},
+                {type: 'static', name: 'grade', label: 'CSS grade'},
+                {type: 'divider'},
+                {type: 'html', html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'}
               ]
             }
           }
@@ -144,77 +81,26 @@ export default {
               name: 'sample-edit-form',
               api: '/api/sample/$id',
               controls: [
-                {
-                  type: 'text',
-                  name: 'engine',
-                  label: 'Engine',
-                  required: true
-                },
-                {
-                  type: 'divider'
-                },
-                {
-                  type: 'text',
-                  name: 'browser',
-                  label: 'Browser',
-                  required: true
-                },
-                {
-                  type: 'divider'
-                },
-                {
-                  type: 'text',
-                  name: 'platform',
-                  label: 'Platform(s)',
-                  required: true
-                },
-                {
-                  type: 'divider'
-                },
-                {
-                  type: 'text',
-                  name: 'version',
-                  label: 'Engine version'
-                },
-                {
-                  type: 'divider'
-                },
-                {
-                  type: 'text',
-                  name: 'grade',
-                  label: 'CSS grade'
-                }
+                {type: 'text', name: 'engine', label: 'Engine', required: true},
+                {type: 'divider'},
+                {type: 'text', name: 'browser', label: 'Browser', required: true},
+                {type: 'divider'},
+                {type: 'text', name: 'platform', label: 'Platform(s)', required: true},
+                {type: 'divider'},
+                {type: 'text', name: 'version', label: 'Engine version'},
+                {type: 'divider'},
+                {type: 'text', name: 'grade', label: 'CSS grade'}
               ]
             }
           }
         },
-        {
-          type: 'button',
-          label: '删除',
-          actionType: 'ajax',
-          confirmText: '您确认要删除?',
-          api: 'delete:/api/sample/$id'
-        }
+        {type: 'button', label: '删除', actionType: 'ajax', confirmText: '您确认要删除?', api: 'delete:/api/sample/$id'}
       ],
       body: [
-        {
-          name: 'engine',
-          label: 'engine',
-          sortable: true,
-          quickEdit: true
-        },
-        {
-          name: 'browser',
-          label: 'Browser'
-        },
-        {
-          name: 'platform',
-          label: 'Platform'
-        },
-        {
-          name: 'version',
-          label: 'version'
-        }
+        {name: 'engine', label: 'engine', sortable: true, quickEdit: true},
+        {name: 'browser', label: 'Browser'},
+        {name: 'platform', label: 'Platform'},
+        {name: 'version', label: 'version'}
       ]
     }
   }

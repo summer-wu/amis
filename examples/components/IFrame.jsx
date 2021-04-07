@@ -1,31 +1,35 @@
+const form_schema = {
+  type: 'form',
+  mode: 'inline',
+  target: 'window',
+  title: 'xxx',
+  debug:true,
+  // controls: [
+  //   {
+  //     type: 'text',
+  //     name: 'keywords',
+  //     addOn: {
+  //       type: 'submit',
+  //       label: '搜索',
+  //       level: 'info',
+  //       icon: 'fa fa-search pull-left'
+  //     }
+  //   }
+  // ]
+};
+const iframe_schema = {
+  type: 'iframe',
+  className: 'b-a',
+  src: 'https://www.baidu.com/s?wd=${keywords|raw}',
+  height: 500
+};
+
 export default {
-  $schema: 'https://houtai.baidu.com/v2/schemas/page.json#',
+  aside: '边栏部分',
   title: 'IFrame 可以用来嵌入其他网站',
   body: [
-    {
-      type: 'form',
-      mode: 'inline',
-      target: 'window',
-      title: '',
-      controls: [
-        {
-          type: 'text',
-          name: 'keywords',
-          addOn: {
-            type: 'submit',
-            label: '搜索',
-            level: 'info',
-            icon: 'fa fa-search pull-left'
-          }
-        }
-      ]
-    },
+    form_schema,
 
-    {
-      type: 'iframe',
-      className: 'b-a',
-      src: 'https://www.baidu.com/s?wd=${keywords|raw}',
-      height: 500
-    }
+    iframe_schema
   ]
 };

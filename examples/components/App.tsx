@@ -25,7 +25,7 @@ import Select from '../../src/components/Select';
 import InputBox from '../../src/components/InputBox';
 import DocSearch from './DocSearch';
 import Doc from './Doc';
-import DocNavCN from './DocNavCN';
+import DocNavCN, {INavigation} from './DocNavCN';
 import Example, {examples} from './Example';
 import CSSDocs, {cssDocs} from './CssDocs';
 import Components, {components} from './Components';
@@ -606,7 +606,7 @@ function isActive(link: any, location: any) {
   return !!(link.path && getPath(link.path) === location.pathname);
 }
 
-function navigations2route(navigations) {
+function navigations2route(navigations: INavigation[]):React.Element[] {
   let routes = [];
 
   navigations.forEach(root => {
@@ -643,6 +643,7 @@ function navigations2route(navigations) {
   return routes;
 }
 
+// 仅配置react-router
 function AppEntry({pathPrefix}) {
   // PathPrefix = pathPrefix || DocPathPrefix;
   const locate = 'zh-CN'; // 暂时不支持切换，因为目前只有中文文档

@@ -10,7 +10,7 @@ interface INavigation {
   children: INavigationChild[];
 }
 
-// 配置左侧导航条
+// 配置左侧导航条。这里仅导出配置项，后面用代码将配置项转为react-router的elements
 const docNavCN_navigations: INavigation[] = [
   {
     // prefix: ({classnames: cx}) => <li className={cx('AsideNav-divider')} />,
@@ -227,3 +227,4 @@ const docNavCN_navigations: INavigation[] = [
 ];
 
 export default docNavCN_navigations;
+export {INavigation};

@@ -1,4 +1,216 @@
-export default {
+import {AppPage, AppSchema} from '../../../src/renderers/App';
+
+const page0: AppPage = {
+  label: 'Home',
+  url: '/',
+  redirect: '/pageA'
+};
+const page1_0 = {
+  label: '页面A',
+  url: 'pageA',
+  schema: {type: 'page', title: '页面A', body: '页面A'},
+  children: [
+    {label: '页面A-1', url: '1', schema: {type: 'page', title: '页面A-1', body: '页面A-1'}},
+    {label: '页面A-2', url: '2', schema: {type: 'page', title: '页面A-2', body: '页面A-2'}},
+    {label: '页面A-3', url: '3', schema: {type: 'page', title: '页面A-3', body: '页面A-3'}}
+  ]
+};
+const page130 = {
+  label: '列表',
+  url: '/crud/list',
+  icon: 'fa fa-list',
+  schema: {
+    type: 'page',
+    title: '列表',
+    remark: null,
+    name: 'page-demo',
+    toolbar: [{type: 'button', actionType: 'link', link: '/crud/new', label: '新增', primary: true}],
+    body: [
+      {
+        type: 'crud',
+        name: 'sample',
+        api: '/api/sample',
+        filter: {
+          title: '',
+          mode: 'inline',
+          wrapWithPanel: false,
+          submitText: '',
+          controls: [{type: 'text', name: 'keywords', placeholder: '通过关键字搜索', addOn: {label: '搜索', type: 'submit', className: 'btn-success'}, clearable: true}],
+          className: 'm-b-sm'
+        },
+        bulkActions: [
+          {
+            label: '批量修改',
+            type: 'button',
+            actionType: 'dialog',
+            level: 'primary',
+            dialog: {title: '批量编辑', name: 'sample-bulk-edit', body: {type: 'form', api: '/api/sample/bulkUpdate2', controls: [{type: 'text', name: 'engine', label: 'Engine'}]}}
+          },
+          {label: '批量删除', type: 'button', level: 'danger', actionType: 'ajax', api: 'delete:/api/sample/$ids', confirmText: '确定要批量删除?'}
+        ],
+        columns: [
+          {name: 'engine', label: 'Rendering engine', sortable: true},
+          {name: 'id', label: 'ID', width: 20, sortable: true},
+          {name: 'browser', label: 'Browser', sortable: true},
+          {name: 'platform', label: 'Platform(s)', sortable: true},
+          {name: 'version', label: 'Engine version'},
+          {name: 'grade', label: 'CSS grade'},
+          {
+            type: 'operation',
+            label: '操作',
+            width: '',
+            buttons: [
+              {
+                type: 'button-group',
+                buttons: [
+                  {type: 'button', label: '查看', level: 'primary', actionType: 'link', link: '/crud/${id}'},
+                  {type: 'button', label: '修改', level: 'info', actionType: 'link', link: '/crud/${id}/edit'},
+                  {type: 'button', label: '删除', level: 'danger', actionType: 'ajax', confirmText: '您确认要删除?', api: 'delete:/api/sample/$id'}
+                ]
+              }
+            ],
+            placeholder: '-',
+            fixed: 'right'
+          }
+        ],
+        affixHeader: true,
+        columnsTogglable: 'auto',
+        placeholder: '暂无数据',
+        tableClassName: 'table-db table-striped',
+        headerClassName: 'crud-table-header',
+        footerClassName: 'crud-table-footer',
+        toolbarClassName: 'crud-table-toolbar',
+        combineNum: 0,
+        bodyClassName: 'panel-default'
+      }
+    ]
+  }
+};
+const page131 = {
+  label: '新增',
+  url: '/crud/new',
+  icon: 'fa fa-plus',
+  schema: {
+    type: 'page',
+    title: '新增',
+    remark: null,
+    toolbar: [{type: 'button', actionType: 'link', link: '/crud/list', label: '返回列表'}],
+    body: [
+      {
+        title: '',
+        type: 'form',
+        redirect: '/crud/list',
+        name: 'sample-edit-form',
+        api: '/api/sample',
+        controls: [
+          {type: 'text', name: 'engine', label: 'Engine', required: true, inline: false, description: '', descriptionClassName: 'help-block', placeholder: '', addOn: null},
+          {type: 'divider'},
+          {type: 'text', name: 'browser', label: 'Browser', required: true},
+          {type: 'divider'},
+          {type: 'text', name: 'platform', label: 'Platform(s)', required: true},
+          {type: 'divider'},
+          {type: 'text', name: 'version', label: 'Engine version'},
+          {type: 'divider'},
+          {type: 'text', name: 'grade', label: 'CSS grade'}
+        ]
+      }
+    ]
+  }
+};
+const page132 = {
+  label: '查看',
+  url: '/crud/:id',
+  schema: {
+    type: 'page',
+    title: '查看详情 ${params.id}',
+    remark: null,
+    toolbar: [{type: 'button', actionType: 'link', link: '/crud/list', label: '返回列表'}],
+    body: [
+      {
+        type: 'form',
+        initApi: '/api/sample/${params.id}',
+        controls: [
+          {type: 'static', name: 'engine', label: 'Engine'},
+          {type: 'divider'},
+          {type: 'static', name: 'browser', label: 'Browser'},
+          {type: 'divider'},
+          {type: 'static', name: 'platform', label: 'Platform(s)'},
+          {type: 'divider'},
+          {type: 'static', name: 'version', label: 'Engine version'},
+          {type: 'divider'},
+          {type: 'static', name: 'grade', label: 'CSS grade'},
+          {type: 'divider'},
+          {type: 'html', html: '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'}
+        ]
+      }
+    ]
+  }
+};
+const page133 = {
+  label: '修改',
+  url: '/crud/:id/edit',
+  schema: {
+    type: 'page',
+    title: '修改 ${params.id}',
+    remark: null,
+    toolbar: [{type: 'button', actionType: 'link', link: '/crud/list', label: '返回列表'}],
+    body: [
+      {
+        type: 'form',
+        initApi: '/api/sample/${params.id}',
+        api: '/api/sample/$id',
+        redirect: '/crud/list',
+        controls: [
+          {type: 'text', name: 'engine', label: 'Engine', required: true},
+          {type: 'divider'},
+          {type: 'text', name: 'browser', label: 'Browser', required: true},
+          {type: 'divider'},
+          {type: 'text', name: 'platform', label: 'Platform(s)', required: true},
+          {type: 'divider'},
+          {type: 'text', name: 'version', label: 'Engine version'},
+          {type: 'divider'},
+          {type: 'select', name: 'grade', label: 'CSS grade', options: ['A', 'B', 'C', 'D', 'X']}
+        ]
+      }
+    ]
+  }
+};
+const page1_3列表示例: AppPage = {
+  label: '列表示例',
+  url: '/crud',
+  rewrite: '/crud/list',
+  icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
+  children: [page130, page131, page132, page133]
+};
+const page1 = {
+  label: '示例',
+  children: [page1_0, {label: '页面B', schema: {type: 'page', title: '页面B', body: '页面B'}}, {label: '页面C', schema: {type: 'page', title: '页面C', body: '页面C'}}, page1_3列表示例]
+};
+const page2 = {
+  label: '分组2',
+  children: [
+    {label: '用户管理', schema: {type: 'page', title: '用户管理', body: '页面C'}},
+    {label: '外部链接', link: 'http://baidu.gitee.io/amis'},
+    {label: '部门管理', schemaApi: '/api/mock2/service/form?tpl=tpl3'}
+  ]
+};
+
+const pages: AppPage[] = [
+  page0,
+  page1,
+  page2
+
+  // {
+  //   label: '404',
+  //   visible: false,
+  //   isDefaultPage: true,
+  //   schema: {
+  //     type: 'page',
+  //     body: '自定义 404 页面，可以不配置'
+  //   }
+  // }
+];
+const jssdk_app_schema:AppSchema = {
   type: 'app',
   brandName: 'JSSDK Test',
   // logo:
@@ -7,493 +219,12 @@ export default {
     type: 'tpl',
     inline: false,
     className: 'w-full',
-    tpl:
-      '<div class="flex justify-between"><div>顶部区域左侧</div><div>顶部区域右侧</div></div>'
+    style: {border: '10px solid gray'},
+    tpl: '<div class="flex justify-between"><div>顶部区域左侧</div><div>顶部区域右侧</div></div>'
   },
   // footer: '<div class="p-2 text-center bg-light">底部区域</div>',
   // asideBefore: '<div class="p-2 text-center">菜单前面区域</div>',
   // asideAfter: '<div class="p-2 text-center">菜单后面区域</div>',
-  pages: [
-    {
-      label: 'Home',
-      url: '/',
-      redirect: '/pageA'
-    },
-    {
-      label: '示例',
-      children: [
-        {
-          label: '页面A',
-          url: 'pageA',
-          schema: {
-            type: 'page',
-            title: '页面A',
-            body: '页面A'
-          },
-
-          children: [
-            {
-              label: '页面A-1',
-              url: '1',
-              schema: {
-                type: 'page',
-                title: '页面A-1',
-                body: '页面A-1'
-              }
-            },
-
-            {
-              label: '页面A-2',
-              url: '2',
-              schema: {
-                type: 'page',
-                title: '页面A-2',
-                body: '页面A-2'
-              }
-            },
-
-            {
-              label: '页面A-3',
-              url: '3',
-              schema: {
-                type: 'page',
-                title: '页面A-3',
-                body: '页面A-3'
-              }
-            }
-          ]
-        },
-
-        {
-          label: '页面B',
-          schema: {
-            type: 'page',
-            title: '页面B',
-            body: '页面B'
-          }
-        },
-
-        {
-          label: '页面C',
-          schema: {
-            type: 'page',
-            title: '页面C',
-            body: '页面C'
-          }
-        },
-
-        {
-          label: '列表示例',
-          url: '/crud',
-          rewrite: '/crud/list',
-          icon: 'https://suda.cdn.bcebos.com/images%2F2021-01%2Fdiamond.svg',
-          children: [
-            {
-              label: '列表',
-              url: '/crud/list',
-              icon: 'fa fa-list',
-              schema: {
-                type: 'page',
-                title: '列表',
-                remark: null,
-                name: 'page-demo',
-                toolbar: [
-                  {
-                    type: 'button',
-                    actionType: 'link',
-                    link: '/crud/new',
-                    label: '新增',
-                    primary: true
-                  }
-                ],
-                body: [
-                  {
-                    type: 'crud',
-                    name: 'sample',
-                    api: '/api/sample',
-                    filter: {
-                      title: '',
-                      mode: 'inline',
-                      wrapWithPanel: false,
-                      submitText: '',
-                      controls: [
-                        {
-                          type: 'text',
-                          name: 'keywords',
-                          placeholder: '通过关键字搜索',
-                          addOn: {
-                            label: '搜索',
-                            type: 'submit',
-                            className: 'btn-success'
-                          },
-                          clearable: true
-                        }
-                      ],
-                      className: 'm-b-sm'
-                    },
-                    bulkActions: [
-                      {
-                        label: '批量修改',
-                        type: 'button',
-                        actionType: 'dialog',
-                        level: 'primary',
-                        dialog: {
-                          title: '批量编辑',
-                          name: 'sample-bulk-edit',
-                          body: {
-                            type: 'form',
-                            api: '/api/sample/bulkUpdate2',
-                            controls: [
-                              {
-                                type: 'text',
-                                name: 'engine',
-                                label: 'Engine'
-                              }
-                            ]
-                          }
-                        }
-                      },
-                      {
-                        label: '批量删除',
-                        type: 'button',
-                        level: 'danger',
-                        actionType: 'ajax',
-                        api: 'delete:/api/sample/$ids',
-                        confirmText: '确定要批量删除?'
-                      }
-                    ],
-                    columns: [
-                      {
-                        name: 'engine',
-                        label: 'Rendering engine',
-                        sortable: true
-                      },
-                      {
-                        name: 'id',
-                        label: 'ID',
-                        width: 20,
-                        sortable: true
-                      },
-                      {
-                        name: 'browser',
-                        label: 'Browser',
-                        sortable: true
-                      },
-                      {
-                        name: 'platform',
-                        label: 'Platform(s)',
-                        sortable: true
-                      },
-                      {
-                        name: 'version',
-                        label: 'Engine version'
-                      },
-                      {
-                        name: 'grade',
-                        label: 'CSS grade'
-                      },
-                      {
-                        type: 'operation',
-                        label: '操作',
-                        width: '',
-                        buttons: [
-                          {
-                            type: 'button-group',
-                            buttons: [
-                              {
-                                type: 'button',
-                                label: '查看',
-                                level: 'primary',
-                                actionType: 'link',
-                                link: '/crud/${id}'
-                              },
-                              {
-                                type: 'button',
-                                label: '修改',
-                                level: 'info',
-                                actionType: 'link',
-                                link: '/crud/${id}/edit'
-                              },
-                              {
-                                type: 'button',
-                                label: '删除',
-                                level: 'danger',
-                                actionType: 'ajax',
-                                confirmText: '您确认要删除?',
-                                api: 'delete:/api/sample/$id'
-                              }
-                            ]
-                          }
-                        ],
-                        placeholder: '-',
-                        fixed: 'right'
-                      }
-                    ],
-                    affixHeader: true,
-                    columnsTogglable: 'auto',
-                    placeholder: '暂无数据',
-                    tableClassName: 'table-db table-striped',
-                    headerClassName: 'crud-table-header',
-                    footerClassName: 'crud-table-footer',
-                    toolbarClassName: 'crud-table-toolbar',
-                    combineNum: 0,
-                    bodyClassName: 'panel-default'
-                  }
-                ]
-              }
-            },
-
-            {
-              label: '新增',
-              url: '/crud/new',
-              icon: 'fa fa-plus',
-              schema: {
-                type: 'page',
-                title: '新增',
-                remark: null,
-                toolbar: [
-                  {
-                    type: 'button',
-                    actionType: 'link',
-                    link: '/crud/list',
-                    label: '返回列表'
-                  }
-                ],
-                body: [
-                  {
-                    title: '',
-                    type: 'form',
-                    redirect: '/crud/list',
-                    name: 'sample-edit-form',
-                    api: '/api/sample',
-                    controls: [
-                      {
-                        type: 'text',
-                        name: 'engine',
-                        label: 'Engine',
-                        required: true,
-                        inline: false,
-                        description: '',
-                        descriptionClassName: 'help-block',
-                        placeholder: '',
-                        addOn: null
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'text',
-                        name: 'browser',
-                        label: 'Browser',
-                        required: true
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'text',
-                        name: 'platform',
-                        label: 'Platform(s)',
-                        required: true
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'text',
-                        name: 'version',
-                        label: 'Engine version'
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'text',
-                        name: 'grade',
-                        label: 'CSS grade'
-                      }
-                    ]
-                  }
-                ]
-              }
-            },
-
-            {
-              label: '查看',
-              url: '/crud/:id',
-              schema: {
-                type: 'page',
-                title: '查看详情 ${params.id}',
-                remark: null,
-                toolbar: [
-                  {
-                    type: 'button',
-                    actionType: 'link',
-                    link: '/crud/list',
-                    label: '返回列表'
-                  }
-                ],
-                body: [
-                  {
-                    type: 'form',
-                    initApi: '/api/sample/${params.id}',
-                    controls: [
-                      {
-                        type: 'static',
-                        name: 'engine',
-                        label: 'Engine'
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'static',
-                        name: 'browser',
-                        label: 'Browser'
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'static',
-                        name: 'platform',
-                        label: 'Platform(s)'
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'static',
-                        name: 'version',
-                        label: 'Engine version'
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'static',
-                        name: 'grade',
-                        label: 'CSS grade'
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'html',
-                        html:
-                          '<p>添加其他 <span>Html 片段</span> 需要支持变量替换（todo）.</p>'
-                      }
-                    ]
-                  }
-                ]
-              }
-            },
-
-            {
-              label: '修改',
-              url: '/crud/:id/edit',
-              schema: {
-                type: 'page',
-                title: '修改 ${params.id}',
-                remark: null,
-                toolbar: [
-                  {
-                    type: 'button',
-                    actionType: 'link',
-                    link: '/crud/list',
-                    label: '返回列表'
-                  }
-                ],
-                body: [
-                  {
-                    type: 'form',
-                    initApi: '/api/sample/${params.id}',
-                    api: '/api/sample/$id',
-                    redirect: '/crud/list',
-                    controls: [
-                      {
-                        type: 'text',
-                        name: 'engine',
-                        label: 'Engine',
-                        required: true
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'text',
-                        name: 'browser',
-                        label: 'Browser',
-                        required: true
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'text',
-                        name: 'platform',
-                        label: 'Platform(s)',
-                        required: true
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'text',
-                        name: 'version',
-                        label: 'Engine version'
-                      },
-                      {
-                        type: 'divider'
-                      },
-                      {
-                        type: 'select',
-                        name: 'grade',
-                        label: 'CSS grade',
-                        options: ['A', 'B', 'C', 'D', 'X']
-                      }
-                    ]
-                  }
-                ]
-              }
-            }
-          ]
-        }
-      ]
-    },
-
-    {
-      label: '分组2',
-      children: [
-        {
-          label: '用户管理',
-          schema: {
-            type: 'page',
-            title: '用户管理',
-            body: '页面C'
-          }
-        },
-
-        {
-          label: '外部链接',
-          link: 'http://baidu.gitee.io/amis'
-        },
-
-        {
-          label: '部门管理',
-          schemaApi: '/api/mock2/service/form?tpl=tpl3'
-        }
-      ]
-    }
-
-    // {
-    //   label: '404',
-    //   visible: false,
-    //   isDefaultPage: true,
-    //   schema: {
-    //     type: 'page',
-    //     body: '自定义 404 页面，可以不配置'
-    //   }
-    // }
-  ]
+  pages: pages
 };
+export default jssdk_app_schema;

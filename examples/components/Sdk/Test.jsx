@@ -1,67 +1,49 @@
 import React from 'react';
 import TitleBar from '../../../src/components/TitleBar';
-import {render} from '../../../src/index';
+import {render as amis_render_schema} from '../../../src/index';
 
 export default class SdkTest extends React.Component {
   state = {
     data: {
-      name: 'Amis Renderer',
+      name: '',
       id: 1,
-      email: 'xxx@xxx.com'
+      email: ''
     }
   };
 
   renderForm() {
-    return render(
-      {
-        title: '',
-        type: 'form',
-        controls: [
-          {
-            type: 'text',
-            name: 'name',
-            label: 'Name'
-          },
-
-          {
-            type: 'text',
-            name: 'id',
-            label: 'Id'
-          },
-
-          {
-            type: 'email',
-            name: 'email',
-            label: 'Email'
-          },
-
-          {
-            type: 'static',
-            label: '最后更新时间',
-            name: 'lastModified'
-          }
-        ]
+    const form_schema = {
+      title: 'form title',
+      type: 'form',
+      mode:'normal',
+      controls: [
+        {type: 'text', name: 'name', label: 'Name'},
+        {type: 'text', name: 'id', label: 'Id'},
+        {type: 'email', name: 'email', label: 'Email'},
+        {type: 'static', label: '最后更新时间', name: 'lastModified'}
+      ]
+    };
+    const props = {
+      data: this.state.data,
+      onFailed: (reason, errors) => {
+        console.log('onFailed Submit Failed', errors, '\n', reason);
       },
-      {
-        data: this.state.data,
-        onFailed: (reason, errors) => {
-          console.log('Submit Failed', errors, '\n', reason);
-        },
-        onSubmit: values => {
-          console.log('Submit', values);
-        },
-        onChange: (values, diff) => {
-          this.setState({
-            data: {
-              ...values,
-              lastModified: new Date()
-            }
-          });
+      onSubmit: values => {
+        console.log('onSubmit', values);
+      },
+      onChange: (values, diff) => {
+        debugger;
+        this.setState({
+          data: {
+            ...values,
+            lastModified: new Date()
+          }
+        });
 
-          console.log('Diff', diff);
-        }
+        console.log('Diff', diff);
       }
-    );
+    };
+    return amis_render_schema(form_schema, props);
   }
 
   handleClick = () => {
