@@ -203,7 +203,7 @@ function closeDialog(component: ScopedComponentType) {
   component.props.onClose && component.props.onClose();
 }
 
-export function HocScoped<
+export function Scoped<
   T extends {
     $path?: string;
     env: RendererEnv;
@@ -274,4 +274,4 @@ export function HocScoped<
   return ScopedComponent;
 }
 
-export default HocScoped;
+export default Scoped;
