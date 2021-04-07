@@ -211,7 +211,7 @@ export function wrapFetcher(
   return function (api, data, options) {
     api = buildApi(api, data, options) as ApiObject;
 
-    api.requestAdaptor && (api = api.requestAdaptor(api) || api);
+    api.requestAdaptor && (api = api.requestAdaptor(api, data, options) || api);
 
     if (api.data && (hasFile(api.data) || api.dataType === 'form-data')) {
       api.data = object2formData(api.data, api.qsOptions);

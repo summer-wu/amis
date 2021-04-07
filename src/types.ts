@@ -8,7 +8,7 @@ export interface ApiObject extends SchemaApiObject {
   body?: PlainObject;
   query?: PlainObject;
   adaptor?: (payload: object, response: fetcherResult, api: ApiObject) => any;
-  requestAdaptor?: (api: ApiObject) => ApiObject;
+  requestAdaptor?: (api: ApiObject, data:object, options?:object) => ApiObject;
 }
 export type ApiString = string;
 export type Api = ApiString | ApiObject;

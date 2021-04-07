@@ -116,6 +116,7 @@ export const CRUDStore = ServiceStore.named('CRUDStore')
       api: Api,
       data?: object,
       options?: fetchOptions & {
+        activePage?:number,
         forceReload?: boolean;
         loadDataOnce?: boolean; // 配置数据是否一次性加载，如果是这样，由前端来完成分页，排序等功能。
         loadDataOnceFetchOnFilter?: boolean; // 在开启loadDataOnce时，filter时是否去重新请求api

@@ -948,11 +948,13 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     });
   }
 
+  //activePage是当前页码，如果当前没有显示数据，值是undefined
   search(
     values?: any,
     silent?: boolean,
     clearSelection?: boolean,
-    forceReload = false
+    forceReload = false,
+    activePage?:number
   ) {
     const {
       store,
@@ -1001,6 +1003,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     isEffectiveApi(api, data)
       ? store
           .fetchInitData(api, data, {
+            activePage,//activePage是当前页码，如果当前没有显示数据，值是undefined
             successMessage: messages && messages.fetchSuccess,
             errorMessage: messages && messages.fetchFailed,
             autoAppend: true,
@@ -1053,7 +1056,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       autoJumpToTopOnPagerChange,
       affixOffsetTop
     } = this.props;
-
+    const activePage = store.page; //保存当前页码
     let query: any = {
       [pageField || 'page']: page
     };
@@ -1069,7 +1072,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField
     );
 
-    this.search(undefined, undefined, undefined);
+    this.search(undefined, undefined, undefined,activePage);
 
     if (autoJumpToTopOnPagerChange && this.control) {
       (findDOMNode(this.control) as HTMLElement).scrollIntoView();
