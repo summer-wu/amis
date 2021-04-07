@@ -5,6 +5,7 @@ import hoistNonReactStatic from 'hoist-non-react-statics';
 export const RootStoreContext = React.createContext<IRendererStore>(
   undefined as any
 );
+RootStoreContext.displayName = 'RootStoreContext';
 
 export function withRootStore<
   T extends React.ComponentType<

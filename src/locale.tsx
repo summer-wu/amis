@@ -65,6 +65,7 @@ export interface LocaleProps {
 }
 
 export const LocaleContext = React.createContext('');
+LocaleContext.displayName = 'LocaleContext';
 
 export function localeable<
   T extends React.ComponentType<React.ComponentProps<T> & LocaleProps>

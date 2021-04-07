@@ -57,6 +57,7 @@ export interface RendererEnv {
 }
 
 export const EnvContext = React.createContext<RendererEnv | void>(undefined);
+EnvContext.displayName = 'EnvContext';
 
 export interface EnvProps {
   env: RendererEnv;

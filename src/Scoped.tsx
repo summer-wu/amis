@@ -41,6 +41,7 @@ export interface IScopedContext {
 }
 type AliasIScopedContext = IScopedContext;
 export const ScopedContext = React.createContext(createScopedTools(''));
+ScopedContext.displayName = 'ScopedContext';
 
 function createScopedTools(
   path?: string,
