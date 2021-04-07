@@ -28,7 +28,7 @@ export default function (schema, showCode, envOverrides) {
 
   return withRouter(
     class extends React.Component {
-      static displayName = 'SchemaRenderer';
+      static displayName = 'SchemaRenderer_withRouter';
       iframeRef;
       state = {open: false, schema: {}};
       toggleCode = () =>

@@ -954,7 +954,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     silent?: boolean,
     clearSelection?: boolean,
     forceReload = false,
-    activePage?:number
+    activePage?: number
   ) {
     const {
       store,
@@ -1003,7 +1003,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
     isEffectiveApi(api, data)
       ? store
           .fetchInitData(api, data, {
-            activePage,//activePage是当前页码，如果当前没有显示数据，值是undefined
+            activePage, //activePage是当前页码，如果当前没有显示数据，值是undefined
             successMessage: messages && messages.fetchSuccess,
             errorMessage: messages && messages.fetchFailed,
             autoAppend: true,
@@ -1072,7 +1072,7 @@ export default class CRUD extends React.Component<CRUDProps, any> {
       perPageField
     );
 
-    this.search(undefined, undefined, undefined,activePage);
+    this.search(undefined, undefined, undefined, undefined, activePage);
 
     if (autoJumpToTopOnPagerChange && this.control) {
       (findDOMNode(this.control) as HTMLElement).scrollIntoView();

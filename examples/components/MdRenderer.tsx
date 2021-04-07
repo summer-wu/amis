@@ -50,7 +50,7 @@ interface IPreviewProps {
 }
 // 展示html（markdown转换而来）
 class Preview extends React.Component<IPreviewProps> {
-  static displayName = 'MarkdownRenderer';
+  static displayName = 'MarkdownRenderer_MdPreview';
   ref = null;
   doms = [];
   constructor(props:IPreviewProps) {

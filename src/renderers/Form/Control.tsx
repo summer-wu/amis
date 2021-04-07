@@ -581,7 +581,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
 // @ts-ignore
 @withRootStore
 export class FormControlRenderer extends FormControl {
-  static displayName = 'Control';
+  static displayName = 'FormControlRenderer';
   static contextType = ScopedContext;
 
   controlRef(ref: any) {

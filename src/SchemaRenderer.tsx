@@ -42,7 +42,7 @@ const defaultOmitList = [
 ];
 
 export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
-  static displayName: string = 'Renderer';
+  static displayName: string = 'SchemaRenderer';
 
   renderer: RendererConfig | null;
   ref: any;
