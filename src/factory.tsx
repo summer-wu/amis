@@ -138,6 +138,7 @@ export function filterSchema(
   ) as Schema;
 }
 
+// 注册渲染器，需要以@Renderer(config)方式执行
 export function Renderer(config: RendererBasicConfig) {
   return function <T extends RendererComponent>(component: T): T {
     const renderer = registerRenderer({
@@ -148,6 +149,7 @@ export function Renderer(config: RendererBasicConfig) {
   };
 }
 
+// 注册渲染器，传入config
 export function registerRenderer(config: RendererConfig): RendererConfig {
   if (!config.test) {
     throw new TypeError('config.test is required');
@@ -310,6 +312,8 @@ const defaultOptions: RenderOptions = {
 let stores: {
   [propName: string]: IRendererStore;
 } = {};
+
+// 渲染ScopedRootRenderer，返回JSX.Element
 export function render(
   schema: Schema,
   props: RootRenderProps = {},
