@@ -288,7 +288,8 @@ const ActionProps = [
   'index',
   'copy',
   'payload',
-  'requireSelected'
+  'requireSelected',
+  'onClickWithData' //云势定制功能
 ];
 import {filterContents} from './Remark';
 import {ClassNamesFn, themeable, ThemeProps} from '../theme';

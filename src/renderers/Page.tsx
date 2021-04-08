@@ -260,7 +260,14 @@ export default class Page extends React.Component<PageProps> {
   ) {
     const {env, store, messages, onAction} = this.props;
 
-    if (action.actionType === 'dialog') {
+    if(action.actionType==='onClickWithData'){
+      if (typeof action.onClickWithData === 'function'){
+        action.onClickWithData(ctx);
+      } else {
+        env.notify('error', 'onClickWithData 类型的action，必须提供onClickWithData属性');
+      }
+      return;
+    } else if (action.actionType === 'dialog') {
       store.setCurrentAction(action);
       store.openDialog(ctx);
     } else if (action.actionType === 'drawer') {
