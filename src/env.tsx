@@ -74,7 +74,8 @@ export function withRendererEnv<
   };
 
   const result = hoistNonReactStatic(
-    class extends React.Component<OuterProps> {
+    //WithEnvWrapper 的功能很简单，就是给内部的组件的props增加env属性。env来自外部props或EnvContext
+    class WithEnvWrapper extends React.Component<OuterProps> {
       static displayName = `WithEnv(${
         ComposedComponent.displayName || ComposedComponent.name
       })`;
