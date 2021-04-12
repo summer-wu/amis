@@ -150,7 +150,7 @@ function fromBsClass(cn: string) {
   return cn;
 }
 
-function copProps2Class(props: any): string {
+function colProps2Class(props: any): string {
   const cns: Array<string> = [];
   const modifiers = ColProps;
 
@@ -191,7 +191,7 @@ export default class Grid<T> extends React.Component<GridProps & T, object> {
       <div
         key={key}
         className={cx(
-          copProps2Class(colProps),
+          colProps2Class(colProps),
           fromBsClass((column as any).columnClassName!)
         )}
       >
