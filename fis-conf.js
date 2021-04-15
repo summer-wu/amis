@@ -176,11 +176,12 @@ fis.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
   rExt: '.js'
 });
 
-fis.match('*.html:jsx', {
-  parser: fis.plugin('typescript'),
-  rExt: '.js',
-  isMod: false
-});
+// 经测试，这段代码是没用的！
+// fis.match('*.html:jsx', {
+//   parser: fis.plugin('typescript'),
+//   rExt: '.js',
+//   isMod: false
+// });
 
 fis.hook('node_modules', {
   shimProcess: false,
