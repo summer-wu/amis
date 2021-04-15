@@ -246,6 +246,7 @@ fis.match('monaco-editor/**', {
 });
 
 function media_public() {
+  console.log('media_public');
   const publishEnv = fis.media('publish');
   publishEnv.get('project.ignore').push('lib/**');
   publishEnv.set('project.files', ['/scss/**', '/src/**']);
@@ -358,8 +359,10 @@ function media_public() {
   });
 }
 
+//publish-sdk是media名
 function media_publish_sdk() {
-  const env = fis.media('publish-sdk');
+  console.log('media_publish_sdk');
+  const publishSdkEnv = fis.media('publish-sdk');
 
   fis.on('compile:end', function (file) {
     if (
@@ -370,32 +373,32 @@ function media_publish_sdk() {
     }
   });
 
-  env.get('project.ignore').push('sdk/**');
-  env.set('project.files', ['examples/sdk-placeholder.html']);
+  publishSdkEnv.get('project.ignore').push('sdk/**');
+  publishSdkEnv.set('project.files', ['examples/sdk-placeholder.html']);
 
-  env.match('/{examples,scss,src}/(**)', {
+  publishSdkEnv.match('/{examples,scss,src}/(**)', {
     release: '/$1'
   });
 
-  env.match('*.map', {
+  publishSdkEnv.match('*.map', {
     release: false
   });
 
-  env.match('/node_modules/(**)', {
+  publishSdkEnv.match('/node_modules/(**)', {
     release: '/thirds/$1'
   });
 
-  env.match('/node_modules/(*)/dist/(**)', {
+  publishSdkEnv.match('/node_modules/(*)/dist/(**)', {
     release: '/thirds/$1/$2'
   });
 
-  env.match('*.scss', {
+  publishSdkEnv.match('*.scss', {
     parser: fis.plugin('sass', {
       sourceMap: false
     })
   });
 
-  env.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
+  publishSdkEnv.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
     parser: [
       // docsGennerator,
       fis.plugin('typescript', {
@@ -420,26 +423,26 @@ function media_publish_sdk() {
     rExt: '.js'
   });
 
-  env.match('/examples/mod.js', {
+  publishSdkEnv.match('/examples/mod.js', {
     isMod: false,
     // optimizer: fis.plugin('uglify-js')
   });
 
-  env.match('*.{js,jsx,ts,tsx}', {
+  publishSdkEnv.match('*.{js,jsx,ts,tsx}', {
     // optimizer: fis.plugin('uglify-js'),
     moduleId: function (m, path) {
       return fis.util.md5('amis-sdk' + path);
     }
   });
 
-  env.match('/src/icons/**.svg', {
+  publishSdkEnv.match('/src/icons/**.svg', {
     optimizer: fis.plugin('uglify-js'),
     moduleId: function (m, path) {
       return fis.util.md5('amis-sdk' + path);
     }
   });
 
-  env.match('::package', {
+  publishSdkEnv.match('::package', {
     packager: fis.plugin('deps-pack', {
       'sdk.js': [
         'examples/mod.js',
@@ -500,11 +503,11 @@ function media_publish_sdk() {
     ]
   });
 
-  env.match('{*.min.js,monaco-editor/min/**.js}', {
+  publishSdkEnv.match('{*.min.js,monaco-editor/min/**.js}', {
     optimizer: null
   });
 
-  env.match('monaco-editor/**.css', {
+  publishSdkEnv.match('monaco-editor/**.css', {
     standard: false
   });
 
@@ -537,11 +540,11 @@ function media_publish_sdk() {
     }
   });
 
-  env.match('/examples/loader.ts', {
+  publishSdkEnv.match('/examples/loader.ts', {
     isMod: false
   });
 
-  env.match('*', {
+  publishSdkEnv.match('*', {
     domain: '.',
     deploy: [
       fis.plugin('skip-packed'),
@@ -571,6 +574,7 @@ function media_publish_sdk() {
   });
 }
 
+// gh-pages是media名！
 function media_gh_pages() {
   fis.match('*-ie11.scss', {
     postprocessor: convertSCSSIE11
