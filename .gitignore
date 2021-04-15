@@ -13,7 +13,7 @@ _site
 node_modules
 /dist
 /lib
-/sdk
+/sdk*
 /public
 /gh-pages
 /.vscode
@@ -25,3 +25,4 @@ node_modules
 /schema.json
 /npm
 /00ignored_dir
+/31pp-frontend-amis
