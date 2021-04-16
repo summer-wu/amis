@@ -14,7 +14,7 @@ import Alert from './components/Alert2';
 import {toast} from './components/Toast';
 import {alert, confirm, setRenderSchemaFn} from './components/Alert';
 import {getDefaultLocale, makeTranslator, LocaleProps} from './locale';
-import ScopedRootRenderer, {RootRenderProps} from './Root';
+import ScopedRoot, {RootRenderProps} from './Root';
 import {HocStoreFactory} from './WithStore';
 import {EnvContext, RendererEnv} from './env';
 
@@ -313,7 +313,7 @@ let stores: {
   [propName: string]: IRendererStore;
 } = {};
 
-// 渲染ScopedRootRenderer，返回JSX.Element
+// 渲染ScopedRoot，返回JSX.Element
 export function render(
   schema: Schema,
   props: RootRenderProps = {},
@@ -360,7 +360,7 @@ export function render(
 
   return (
     <EnvContext.Provider value={env}>
-      <ScopedRootRenderer
+      <ScopedRoot
         {...props}
         schema={schema}
         pathPrefix={pathPrefix}
