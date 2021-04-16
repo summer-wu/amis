@@ -26,11 +26,10 @@ export function HocStoreFactory(renderer: {
   return function <T extends React.ComponentType<RendererProps>>(Component: T) {
     type Props = Omit<
       RendererProps,
-      'store' | 'data' | 'dataUpdatedAt' | 'scope'
+      'store' | 'data' | 'dataUpdatedAt'
     > & {
       store?: IIRendererStore;
       data?: RendererData;
-      scope?: RendererData;
     };
 
     @observer
