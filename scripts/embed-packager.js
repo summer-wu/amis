@@ -58,7 +58,7 @@ module.exports = function (ret, pack, settings, opt) {
   var root = fis.project.getProjectPath();
 
   var tpl = ret.pkg['/examples/sdk-placeholder.html'];
-  tpl.skiped = true;
+  // tpl.skiped = true;
 
   if (tpl && tpl._fromCache && caches[tpl.id]) {
     tpl.setContent(caches[tpl.id]);
@@ -77,10 +77,9 @@ module.exports = function (ret, pack, settings, opt) {
   var files = ret.pkg;
   Object.keys(files).forEach(function (subpath) {
     var file = files[subpath];
-
+    console.log('file.getUrl()',file.getUrl());
     mapping[file.getUrl()] = file;
   });
-
   contents.replace(
     rLinkScript,
     function (
