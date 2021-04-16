@@ -236,7 +236,6 @@ export function HocStoreFactory(renderer: {
           data: this.store.data,
           dataUpdatedAt: this.store.updatedAt,
           ...subProps,
-          scope: this.store.data,
           store: this.store
         });
       }
@@ -263,7 +262,6 @@ export function HocStoreFactory(renderer: {
             data={this.store.data}
             dataUpdatedAt={this.store.updatedAt}
             store={this.store}
-            scope={this.store.data}
             render={this.renderChild}
           />
         );
