@@ -156,6 +156,7 @@ fis.hook('commonjs', {
   }
 });
 
+// 以下划线开头的scss文件，不要输出
 fis.match('_*.scss', {
   release: false
 });
@@ -205,7 +206,7 @@ fis.match('monaco-editor/**', {
   packTo: null
 });
 
-function media_public(){}
+function media_public() {}
 
 //publish-sdk是media名
 function media_publish_sdk() {
@@ -222,9 +223,19 @@ function media_publish_sdk() {
   });
 
   publishSdkEnv.get('project.ignore').push('sdk/**');
-  publishSdkEnv.set('project.files', ['examples/sdk-placeholder.html']);
+
+  // project.files配置的是入口文件！！！
+  publishSdkEnv.set('project.files', [
+    'examples/sdk-placeholder.html',
+    'pp-frontend-amis/main_placeholder.html' //main_placeholder是入口文件，仅用于传递依赖！生产环境实际上不使用此文件！main.html需要手动复制到sdk目录中。
+  ]);
 
   publishSdkEnv.match('/{examples,scss,src}/(**)', {
+    release: '/$1'
+  });
+
+  // 将 html文件 和 static文件夹 输出到sdk/下
+  publishSdkEnv.match('/pp-frontend-amis/(**)', {
     release: '/$1'
   });
 
@@ -246,6 +257,7 @@ function media_publish_sdk() {
     })
   });
 
+  // 经测试，'/src/**.js /src/**.ts' 实际是没用的，因为*.ts实际是**/*.ts，已经包括了/src/**.ts
   publishSdkEnv.match('{*.ts,*.jsx,*.tsx,/src/**.js,/src/**.ts}', {
     parser: [
       // docsGennerator,
@@ -284,7 +296,7 @@ function media_publish_sdk() {
   });
 
   publishSdkEnv.match('/src/icons/**.svg', {
-    optimizer: fis.plugin('uglify-js'),
+    // optimizer: fis.plugin('uglify-js'),
     moduleId: function (m, path) {
       return fis.util.md5('amis-sdk' + path);
     }
@@ -292,6 +304,12 @@ function media_publish_sdk() {
 
   publishSdkEnv.match('::package', {
     packager: fis.plugin('deps-pack', {
+      'pp-frontend.js': [
+        'pp-frontend-amis/main_src/main.ts',
+        'pp-frontend-amis/main_src/main.ts:deps',
+        '!src/**',
+        '!node_modules/**'
+      ],
       'sdk.js': [
         'examples/mod.js',
         'examples/embed.tsx',
