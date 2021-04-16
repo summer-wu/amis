@@ -310,6 +310,9 @@ function media_publish_sdk() {
         '!src/**',
         '!node_modules/**'
       ],
+      'loader.js':[
+        'examples/loader.ts'
+      ],
       'sdk.js': [
         'examples/mod.js',
         'examples/embed.tsx',
