@@ -1,5 +1,5 @@
-import {IIRendererStore} from '../../../types/amis/lib/store';
-import {ButtonControlSchema} from '../../../types/amis/lib/renderers/Form/Button';
+import type {IIRendererStore} from '../../../types/amis/lib/store';
+import type {ButtonControlSchema} from '../../../types/amis/lib/renderers/Form/Button';
 const React = amisRequire('react');
 
 const left_tree_schema = {

@@ -3,11 +3,11 @@ import {PlainObject} from '../../../types/amis/lib/types';
 import {CRUDTableSchem} from '../../../types/amis/lib/renderers/CRUD';
 import {TableColumn} from '../../../types/amis/lib/renderers/Table';
 import {ActionSchema, ButtonSchema, DialogActionSchema} from '../../../types/amis/lib/renderers/Action';
-import {ODataHeadersBuilder} from '../utils/ODataHeadersBuilder.js';
+import {ODataHeadersBuilder} from '../utils/ODataHeadersBuilder';
 import {WizardSchema, WizardStepSchema} from '../../../types/amis/lib/renderers/Wizard';
 import {FileControlSchema} from '../../../types/amis/lib/renderers/Form/File';
-import {get_hash_param_with_key, get_url_param_with_key} from '../utils/url_util.js';
-import {contract_detail_step2_schema} from './contract_detail_step2_schema.js';
+import {get_hash_param_with_key, get_url_param_with_key} from '../utils/url_util';
+import {contract_detail_step2_schema} from './contract_detail_step2_schema';
 
 const React = amisRequire('react');
 

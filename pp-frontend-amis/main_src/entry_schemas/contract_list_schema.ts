@@ -3,7 +3,7 @@ import {PlainObject} from '../../../types/amis/lib/types';
 import {CRUDTableSchem} from '../../../types/amis/lib/renderers/CRUD';
 import {TableColumn} from '../../../types/amis/lib/renderers/Table';
 import {ActionSchema, ButtonSchema, DialogActionSchema} from '../../../types/amis/lib/renderers/Action';
-import {ODataHeadersBuilder} from '../utils/ODataHeadersBuilder.js';
+import {ODataHeadersBuilder} from '../utils/ODataHeadersBuilder';
 import {fc_contract} from '../types/dataverse/fc_contract';
 
 // 点击新增按钮，弹出一个dialog
