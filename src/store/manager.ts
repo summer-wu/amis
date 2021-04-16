@@ -6,7 +6,8 @@ const stores: {
   [propName: string]: IStoreNode;
 } = {};
 
-export function addStore(store: IStoreNode) {
+//将store注册到manager中。可以用getStoreById获取
+export function registerStore(store: IStoreNode) {
   if (stores[store.id]) {
     return stores[store.id];
   }

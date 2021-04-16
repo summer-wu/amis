@@ -19,7 +19,7 @@ import {TranslateFn} from '../locale';
 import find from 'lodash/find';
 import {IStoreNode} from './node';
 import {FormItemStore} from './formItem';
-import {addStore, getStoreById, getStores, removeStore} from './manager';
+import {registerStore, getStoreById, getStores, removeStore} from './manager';
 import {PaginationStore} from './pagination';
 import {AppStore} from './app';
 import {RootStore} from './root';
@@ -78,7 +78,7 @@ export const RendererStore = types
       [propName: string]: any;
     }): IStoreNode {
       if (store.storeType === RootStore.name) {
-        return addStore(RootStore.create(store, getEnv(self)));
+        return registerStore(RootStore.create(store, getEnv(self)));
       }
 
       const factory = find(
@@ -86,7 +86,7 @@ export const RendererStore = types
         item => item.name === store.storeType
       )!;
 
-      return addStore(factory.create(store as any, getEnv(self)));
+      return registerStore(factory.create(store as any, getEnv(self)));
     },
 
     removeStore(store: IStoreNode) {
