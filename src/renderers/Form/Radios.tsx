@@ -98,10 +98,7 @@ export default class RadiosControl extends React.Component<RadiosProps, any> {
   }
 }
 
-@OptionsControl({
-  type: 'radios',
-  sizeMutable: false
-})
+@OptionsControl({type: 'radios',sizeMutable: false})
 export class RadiosControlRenderer extends RadiosControl {
   static defaultProps = {
     multiple: false

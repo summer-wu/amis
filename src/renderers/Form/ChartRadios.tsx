@@ -145,10 +145,7 @@ export default class ChartRadiosControl extends React.Component<
   }
 }
 
-@OptionsControl({
-  type: 'chart-radios',
-  sizeMutable: false
-})
+@OptionsControl({type: 'chart-radios',sizeMutable: false})
 export class RadiosControlRenderer extends ChartRadiosControl {
   static defaultProps = {
     multiple: false

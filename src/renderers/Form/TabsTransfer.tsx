@@ -54,9 +54,7 @@ export interface TabsTransferProps
       | 'descriptionClassName'
     > {}
 
-@OptionsControl({
-  type: 'tabs-transfer'
-})
+@OptionsControl({type: 'tabs-transfer'})
 export class TabsTransferRenderer extends BaseTransferRenderer<TabsTransferProps> {
   render() {
     const {

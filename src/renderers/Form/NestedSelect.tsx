@@ -583,7 +583,5 @@ export default class NestedSelectControl extends React.Component<
   }
 }
 
-@OptionsControl({
-  type: 'nested-select'
-})
+@OptionsControl({type: 'nested-select'})
 export class NestedSelectControlRenderer extends NestedSelectControl {}

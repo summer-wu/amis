@@ -397,7 +397,5 @@ export default class TagControl extends React.PureComponent<
   }
 }
 
-@OptionsControl({
-  type: 'tag'
-})
+@OptionsControl({type: 'tag'})
 export class TagControlRenderer extends TagControl {}

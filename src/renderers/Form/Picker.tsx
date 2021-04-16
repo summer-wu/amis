@@ -538,9 +538,5 @@ export default class PickerControl extends React.PureComponent<
   }
 }
 
-@OptionsControl({
-  type: 'picker',
-  autoLoadOptionsFromSource: false,
-  sizeMutable: false
-})
+@OptionsControl({type: 'picker', autoLoadOptionsFromSource: false, sizeMutable: false})
 export class PickerControlRenderer extends PickerControl {}

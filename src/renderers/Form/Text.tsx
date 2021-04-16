@@ -750,24 +750,14 @@ export function mapItemIndex(
     }, {});
 }
 
-@OptionsControl({
-  type: 'text'
-})
+@OptionsControl({type: 'text'})
 export class TextControlRenderer extends TextControl {}
 
-@OptionsControl({
-  type: 'password'
-})
+@OptionsControl({type: 'password'})
 export class PasswordControlRenderer extends TextControl {}
 
-@OptionsControl({
-  type: 'email',
-  validations: 'isEmail'
-})
+@OptionsControl({type: 'email',validations: 'isEmail'})
 export class EmailControlRenderer extends TextControl {}
 
-@OptionsControl({
-  type: 'url',
-  validations: 'isUrl'
-})
+@OptionsControl({type: 'url',validations: 'isUrl'})
 export class UrlControlRenderer extends TextControl {}

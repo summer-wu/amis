@@ -171,7 +171,5 @@ export default class TreeControl extends React.Component<TreeProps> {
   }
 }
 
-@OptionsControl({
-  type: 'tree'
-})
+@OptionsControl({type: 'tree'})
 export class TreeControlRenderer extends TreeControl {}

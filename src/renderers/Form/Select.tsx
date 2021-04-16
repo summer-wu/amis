@@ -265,14 +265,10 @@ export default class SelectControl extends React.Component<SelectProps, any> {
   }
 }
 
-@OptionsControl({
-  type: 'select'
-})
+@OptionsControl({type: 'select'})
 export class SelectControlRenderer extends SelectControl {}
 
-@OptionsControl({
-  type: 'multi-select'
-})
+@OptionsControl({type: 'multi-select'})
 export class MultiSelectControlRenderer extends SelectControl {
   static defaultProps = {
     multiple: true

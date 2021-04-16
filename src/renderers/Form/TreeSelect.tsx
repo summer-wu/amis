@@ -568,7 +568,5 @@ export default class TreeSelectControl extends React.Component<
   }
 }
 
-@OptionsControl({
-  type: 'tree-select'
-})
+@OptionsControl({type: 'tree-select'})
 export class TreeSelectControlRenderer extends TreeSelectControl {}

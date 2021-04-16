@@ -270,8 +270,5 @@ export default class CheckboxesControl extends React.Component<
   }
 }
 
-@OptionsControl({
-  type: 'checkboxes',
-  sizeMutable: false
-})
+@OptionsControl({type: 'checkboxes',sizeMutable: false})
 export class CheckboxesControlRenderer extends CheckboxesControl {}

@@ -160,8 +160,5 @@ export default class ListControl extends React.Component<ListProps, any> {
   }
 }
 
-@OptionsControl({
-  type: 'list',
-  sizeMutable: false
-})
+@OptionsControl({type: 'list', sizeMutable: false})
 export class ListControlRenderer extends ListControl {}

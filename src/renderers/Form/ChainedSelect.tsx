@@ -251,8 +251,5 @@ export default class ChainedSelectControl extends React.Component<
   }
 }
 
-@OptionsControl({
-  type: 'chained-select',
-  sizeMutable: false
-})
+@OptionsControl({type: 'chained-select',sizeMutable: false})
 export class ChainedSelectControlRenderer extends ChainedSelectControl {}
