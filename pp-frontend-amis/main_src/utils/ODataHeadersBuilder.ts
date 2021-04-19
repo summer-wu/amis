@@ -1,4 +1,4 @@
-import {PlainObject} from '../../../types/amis/lib/types';
+import {PlainObject} from '../../../src/types';
 
 export class ODataHeadersBuilder {
   private readonly headers: Headers;
@@ -55,10 +55,9 @@ export class ODataHeadersBuilder {
 
   public get_plain_headers(): PlainObject {
     const plain_headers: PlainObject = {};
-    for (let entry of this.headers) {
-      const [key, value] = entry;
+    this.headers.forEach((value, key) => {
       plain_headers[key] = value;
-    }
+    });
     return plain_headers;
   }
 }
