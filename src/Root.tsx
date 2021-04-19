@@ -159,6 +159,13 @@ export function renderChild(
     props = transform(props);
   }
 
+
+  // 有大量地方都会创建dialog组件，实际上应该条件判断后再创建。我先在这里拦截掉吧，后期再优化。
+  if (schema.type.includes('dialog')){
+    return null ;
+    // debugger;
+  }
+
   return (
     <SchemaRenderer
       {...props}

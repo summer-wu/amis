@@ -1373,6 +1373,53 @@ export default class Form extends React.Component<FormProps, object> {
     return render(`${region ? `${region}/` : ''}${key}`, subSchema, subProps);
   }
 
+  renderModal() {
+    const {render, store} = this.props;
+    let dialog_elem = null;
+    if (store.dialogOpen) {
+      dialog_elem = render(
+        'modal',
+        {
+          ...((store.action as Action) &&
+            ((store.action as Action).dialog as object)),
+          type: 'dialog'
+        },
+        {
+          key: 'dialog',
+          data: store.dialogData,
+          onConfirm: this.handleDialogConfirm,
+          onClose: this.handleDialogClose,
+          show: store.dialogOpen
+        }
+      );
+    }
+    let drawer_elem = null;
+    if (store.drawerOpen) {
+      const drawer_elem = render(
+        'modal',
+        {
+          ...((store.action as Action) &&
+            ((store.action as Action).drawer as object)),
+          type: 'drawer'
+        },
+        {
+          key: 'drawer',
+          data: store.drawerData,
+          onConfirm: this.handleDrawerConfirm,
+          onClose: this.handleDrawerClose,
+          show: store.drawerOpen
+        }
+      );
+    }
+
+    return (
+      <>
+        {dialog_elem}
+        {drawer_elem}
+      </>
+    );
+  }
+
   renderBody() {
     const {
       tabs,
@@ -1422,37 +1469,8 @@ export default class Form extends React.Component<FormProps, object> {
           </ul>
         ) : null}
 
-        {render(
-          'modal',
-          {
-            ...((store.action as Action) &&
-              ((store.action as Action).dialog as object)),
-            type: 'dialog'
-          },
-          {
-            key: 'dialog',
-            data: store.dialogData,
-            onConfirm: this.handleDialogConfirm,
-            onClose: this.handleDialogClose,
-            show: store.dialogOpen
-          }
-        )}
+        {this.renderModal()}
 
-        {render(
-          'modal',
-          {
-            ...((store.action as Action) &&
-              ((store.action as Action).drawer as object)),
-            type: 'drawer'
-          },
-          {
-            key: 'drawer',
-            data: store.drawerData,
-            onConfirm: this.handleDrawerConfirm,
-            onClose: this.handleDrawerClose,
-            show: store.drawerOpen
-          }
-        )}
         {/* 实现回车自动提交 */}
         <input type="submit" style={{display: 'none'}} />
       </WrapperComponent>
