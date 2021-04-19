@@ -41,6 +41,14 @@ const allowedStoreList = [
   AppStore
 ];
 
+interface IAddStoreParams {
+  storeType: string;
+  id: string;
+  path: string;
+  parentId?: string;
+  [propName: string]: any;
+}
+
 export const RendererStore = types
   .model('RendererStore', {
     storeType: 'RendererStore'
@@ -70,23 +78,24 @@ export const RendererStore = types
     }
   }))
   .actions(self => ({
-    addStore(store: {
-      storeType: string;
-      id: string;
-      path: string;
-      parentId?: string;
-      [propName: string]: any;
-    }): IStoreNode {
-      if (store.storeType === RootStore.name) {
-        return registerStore(RootStore.create(store, getEnv(self)));
+    addStore(store_params: IAddStoreParams): IStoreNode {
+      if (store_params.storeType === RootStore.name) {
+        return registerStore(RootStore.create(store_params, getEnv(self)));
       }
 
-      const factory = find(
+      //用store_factory是一个object，它有create方法用于创建store
+      const store_factory = find(
         allowedStoreList,
-        item => item.name === store.storeType
+        item => item.name === store_params.storeType
       )!;
 
-      return registerStore(factory.create(store as any, getEnv(self)));
+      const store: IStoreNode = store_factory.create(
+        store_params as any,
+        getEnv(self)
+      );
+      (store as any).$create_store_params = store_params; //增加一个特殊属性 $create_store_params，用于调试
+      registerStore(store);
+      return store;
     },
 
     removeStore(store: IStoreNode) {

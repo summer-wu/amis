@@ -118,7 +118,7 @@ export interface fetcherConfig {
   config?: any;
 }
 
-const renderers: Array<RendererConfig> = [];
+const registered_rendererConfigs: Array<RendererConfig> = [];
 const rendererNames: Array<string> = [];
 const schemaFilters: Array<RenderSchemaFilter> = [];
 let anonymousIndex = 1;
@@ -149,7 +149,7 @@ export function Renderer(config: RendererBasicConfig) {
   };
 }
 
-// 注册渲染器，传入config
+// 注册渲染器，传入RendererConfig
 export function registerRenderer(config: RendererConfig): RendererConfig {
   if (!config.test) {
     throw new TypeError('config.test is required');
@@ -180,10 +180,10 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
   }
 
   const idx = findIndex(
-    renderers,
+    registered_rendererConfigs,
     item => (config.weight as number) < item.weight
   );
-  ~idx ? renderers.splice(idx, 0, config) : renderers.push(config);
+  ~idx ? registered_rendererConfigs.splice(idx, 0, config) : registered_rendererConfigs.push(config);
   rendererNames.push(config.name);
   return config;
 }
@@ -191,9 +191,9 @@ export function registerRenderer(config: RendererConfig): RendererConfig {
 export function unRegisterRenderer(config: RendererConfig | string) {
   let idx =
     typeof config === 'string'
-      ? findIndex(renderers, item => item.name === config)
-      : renderers.indexOf(config);
-  ~idx && renderers.splice(idx, 1);
+      ? findIndex(registered_rendererConfigs, item => item.name === config)
+      : registered_rendererConfigs.indexOf(config);
+  ~idx && registered_rendererConfigs.splice(idx, 1);
 
   let idx2 =
     typeof config === 'string'
@@ -420,6 +420,7 @@ export function updateEnv(options: Partial<RenderOptions>, session = 'global') {
 }
 
 let cache: {[propName: string]: RendererConfig} = {};
+// 解析渲染器，返回RendererConfig
 export function resolveRenderer(
   path: string,
   schema?: Schema
@@ -432,7 +433,7 @@ export function resolveRenderer(
 
   let renderer: null | RendererConfig = null;
 
-  renderers.some(item => {
+  registered_rendererConfigs.some(item => {
     let matched = false;
 
     // 不应该搞得这么复杂的，让每个渲染器唯一 id，自己不晕别人用起来也不晕。
@@ -463,12 +464,13 @@ export function resolveRenderer(
   return renderer;
 }
 
+// 返回的是一份copy，不怕被修改
 export function getRenderers() {
-  return renderers.concat();
+  return registered_rendererConfigs.concat();
 }
 
 export function getRendererByName(name: string) {
-  return find(renderers, item => item.name === name);
+  return find(registered_rendererConfigs, item => item.name === name);
 }
 
 setRenderSchemaFn((controls, value, callback, scopeRef, theme) => {
