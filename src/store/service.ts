@@ -41,6 +41,7 @@ export const ServiceStore = iRendererStore
     function reInitData(data: object | undefined, replace: boolean = false) {
       const newData = extendObject(self.pristine, data, !replace);
       self.data = self.pristine = newData;
+      console.log(`ServiceStore reInitData (id=${self.id} ${self.path} ${self.storeType} ${self?.$create_store_params?.componentName})`,JSON.stringify(newData));
     }
 
     function updateMessage(msg?: string, error: boolean = false) {

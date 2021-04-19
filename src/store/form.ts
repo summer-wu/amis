@@ -177,6 +177,7 @@ export const FormStore = ServiceStore.named('FormStore')
       }
 
       self.data = data;
+      console.log(`FormStore setValueByName (id=${self.id} ${self.path} ${self.storeType} ${self?.$create_store_params?.componentName})`,JSON.stringify(self.data));
 
       if (self.persistData) {
         setPersistData();
@@ -533,7 +534,7 @@ export const FormStore = ServiceStore.named('FormStore')
 
     function addFormItem(item: IFormItemStore) {
       self.itemsRef.push(item.id);
-      // 默认值可能在原型上，把他挪到当前对象上。
+      // 默认值可能在原型（formStore.__proto__）上，把默认值挪到formStore上。
       setValueByName(item.name, item.value, false, false);
     }
 

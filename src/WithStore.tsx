@@ -24,10 +24,7 @@ export function HocStoreFactory(renderer: {
   ) => boolean | undefined;
 }): any {
   return function <T extends React.ComponentType<RendererProps>>(Component: T) {
-    type Props = Omit<
-      RendererProps,
-      'store' | 'data' | 'dataUpdatedAt'
-    > & {
+    type Props = Omit<RendererProps, 'store' | 'data' | 'dataUpdatedAt'> & {
       store?: IIRendererStore;
       data?: RendererData;
     };
@@ -70,7 +67,9 @@ export function HocStoreFactory(renderer: {
           id: guid(),
           path: this.props.$path,
           storeType: renderer.storeType,
-          parentId: this.props.store ? this.props.store.id : ''
+          parentId: this.props.store ? this.props.store.id : '',
+          reactElement: this, //store是哪个react element创建的，也可以叫ownerElement，用于调试
+          componentName: Component.displayName || Component.name //store是哪个组件创建，相当于ownerComponent，用于调试
         }) as IIRendererStore;
         this.store = store;
 

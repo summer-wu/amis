@@ -22,6 +22,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
 
     return {
       initData(data: object = {}, skipSetPristine = false) {
+        console.log(`iRendererStore initData (id=${self.id} ${self.path} ${self.storeType} ${self?.$create_store_params?.componentName})`,JSON.stringify(data));
         self.initedAt = Date.now();
 
         !skipSetPristine && (self.pristine = data);
@@ -33,6 +34,7 @@ export const iRendererStore = StoreNode.named('iRendererStore')
       },
 
       updateData(data: object = {}, tag?: object, replace?: boolean) {
+        console.log(`iRendererStore updateData (id=${self.id} ${self.path} ${self.storeType}  ${self?.$create_store_params?.componentName})`,JSON.stringify(data));
         const prev = self.data;
         let newData;
         if (tag) {
