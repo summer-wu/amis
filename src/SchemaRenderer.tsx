@@ -57,7 +57,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   componentWillMount() {
-    this.resolveRenderer(this.props);
+    this.resolveRenderer(this.props, false);
   }
 
   componentWillReceiveProps(nextProps: SchemaRendererProps) {
@@ -66,24 +66,19 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     if (
       props.schema &&
       nextProps.schema &&
-      (props.schema.type !== nextProps.schema.type ||
-        props.schema.$$id !== nextProps.schema.$$id)
+      (props.schema.type !== nextProps.schema.type || props.schema.$$id !== nextProps.schema.$$id)
     ) {
-      this.resolveRenderer(nextProps);
+      this.resolveRenderer(nextProps, false);
     }
   }
 
   // 限制：只有 schema 除外的 props 变化，或者 schema 里面的某个成员值发生变化才更新。
   shouldComponentUpdate(nextProps: SchemaRendererProps) {
     const props = this.props;
-    const list: Array<string> = difference(Object.keys(nextProps), [
-      'schema',
-      'scope'
-    ]);
+    const list: Array<string> = difference(Object.keys(nextProps), ['schema', 'scope']);
 
     if (
-      difference(Object.keys(props), ['schema', 'scope']).length !==
-        list.length ||
+      difference(Object.keys(props), ['schema', 'scope']).length !== list.length ||
       anyChanged(list, this.props, nextProps)
     ) {
       return true;
@@ -101,7 +96,9 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     return false;
   }
 
-  resolveRenderer(props: SchemaRendererProps, skipResolve = false): any {
+  // 如果skipResolve==true，不会获取this.renderer
+  // 如果skipResolve==false，会获取this.renderer
+  resolveRenderer(props: SchemaRendererProps, skipResolve: boolean): {path: string; schema: any} {
     let schema = props.schema;
     let path = props.$path;
 
@@ -149,8 +146,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
     const omitList = defaultOmitList.concat();
     if (this.renderer) {
       const Component = this.renderer.component;
-      Component.propsList &&
-        omitList.push.apply(omitList, Component.propsList as Array<string>);
+      Component.propsList && omitList.push.apply(omitList, Component.propsList as Array<string>);
     }
 
     return renderChild(`${$path}${region ? `/${region}` : ''}`, node || '', {
@@ -162,7 +158,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
   }
 
   reRender() {
-    this.resolveRenderer(this.props);
+    this.resolveRenderer(this.props, false);
     this.forceUpdate();
   }
 
@@ -209,11 +205,7 @@ export class SchemaRenderer extends React.Component<SchemaRendererProps, any> {
         <LazyComponent
           {...rest}
           getComponent={async () => {
-            const result = await rest.env.loadRenderer(
-              schema,
-              $path,
-              this.reRender
-            );
+            const result = await rest.env.loadRenderer(schema, $path, this.reRender);
             if (result && typeof result === 'function') {
               return result;
             } else if (result && React.isValidElement(result)) {
