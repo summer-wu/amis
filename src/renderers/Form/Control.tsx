@@ -79,7 +79,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
   });
   componentWillMount() {
     const {
-      formStore: form,
+      formStore: formStore,
       formItem,
       rootStore,
       control: {
@@ -120,11 +120,11 @@ export default class FormControl extends React.PureComponent<ControlProps> {
       id: guid(),
       path: this.props.$path,
       storeType: FormItemStore.name,
-      parentId: form.id,
+      parentId: formStore.id,
       name
     }) as IFormItemStore;
     this.model = model;
-    form.addFormItem(model);
+    formStore.addFormItem(model);
     formItem?.addSubFormItem(model);
     model.config({
       id,
@@ -145,8 +145,8 @@ export default class FormControl extends React.PureComponent<ControlProps> {
       clearValueOnHidden
     });
 
-    if (this.model.unique && form.parentStore?.storeType === ComboStore.name) {
-      const combo = form.parentStore as IComboStore;
+    if (this.model.unique && formStore.parentStore?.storeType === ComboStore.name) {
+      const combo = formStore.parentStore as IComboStore;
       combo.bindUniuqueItem(model);
     }
 
@@ -162,7 +162,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
         if (
           validateOnChange === true ||
           (validateOnChange !== false &&
-            (form.submited || (isAlive(model) && model.validated)))
+            (formStore.submited || (isAlive(model) && model.validated)))
         ) {
           this.lazyValidate();
         } else if (validateOnChange === false) {
@@ -175,7 +175,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
   componentDidMount() {
     const {
       store,
-      formStore: form,
+      formStore: formStore,
       control: {name, validate},
       addHook
     } = this.props;
@@ -192,7 +192,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
       let finalValidate = promisify(validate.bind(formItem));
       this.hook2 = function () {
         formItem.clearError('control:valdiate');
-        return finalValidate(form.data, formItem.value, formItem.name).then(
+        return finalValidate(formStore.data, formItem.value, formItem.name).then(
           (ret: any) => {
             if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
               formItem.addError(ret, 'control:valdiate');
@@ -302,15 +302,15 @@ export default class FormControl extends React.PureComponent<ControlProps> {
   }
 
   disposeModel() {
-    const {formStore: form, formItem} = this.props;
+    const {formStore: formStore, formItem} = this.props;
 
     if (
       this.model &&
       this.model.unique &&
-      form.parentStore &&
-      form.parentStore.storeType === ComboStore.name
+      formStore.parentStore &&
+      formStore.parentStore.storeType === ComboStore.name
     ) {
-      const combo = form.parentStore as IComboStore;
+      const combo = formStore.parentStore as IComboStore;
       combo.unBindUniuqueItem(this.model);
     }
 
@@ -318,11 +318,11 @@ export default class FormControl extends React.PureComponent<ControlProps> {
       formItem &&
       isAlive(formItem) &&
       formItem.removeSubFormItem(this.model);
-    this.model && form.removeFormItem(this.model);
+    this.model && formStore.removeFormItem(this.model);
   }
 
   controlRef(control: any) {
-    const {addHook, removeHook, formStore: form} = this.props;
+    const {addHook, removeHook, formStore: formStore} = this.props;
 
     // 因为 control 有可能被 n 层 hoc 包裹。
     while (control && control.getWrappedInstance) {
@@ -335,7 +335,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
       this.hook = function () {
         formItem.clearError('component:valdiate');
 
-        return validate(form.data, formItem.value, formItem.name).then(ret => {
+        return validate(formStore.data, formItem.value, formItem.name).then(ret => {
           if ((typeof ret === 'string' || Array.isArray(ret)) && ret) {
             formItem.setError(ret, 'component:valdiate');
           }
@@ -351,20 +351,20 @@ export default class FormControl extends React.PureComponent<ControlProps> {
   }
 
   validate() {
-    const {formStore: form} = this.props;
+    const {formStore: formStore} = this.props;
 
     if (this.model) {
       if (
         this.model.unique &&
-        form.parentStore &&
-        form.parentStore.storeType === ComboStore.name
+        formStore.parentStore &&
+        formStore.parentStore.storeType === ComboStore.name
       ) {
-        const combo = form.parentStore as IComboStore;
+        const combo = formStore.parentStore as IComboStore;
         const group = combo.uniques.get(this.model.name) as IUniqueGroup;
         group.items.forEach(item => item.validate());
       } else {
         this.model.validate(this.hook);
-        form
+        formStore
           .getItemsByName(this.model.name)
           .forEach(item => item !== this.model && item.validate());
       }
@@ -377,7 +377,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
     changeImmediately: boolean = false
   ) {
     const {
-      formStore: form,
+      formStore: formStore,
       onChange,
       control: {type, pipeOut, changeImmediately: conrolChangeImmediately},
       formInited
@@ -394,7 +394,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
 
     if (pipeOut) {
       const oldValue = this.model.value;
-      value = pipeOut(value, oldValue, form.data);
+      value = pipeOut(value, oldValue, formStore.data);
     }
 
     this.model.changeTmpValue(value);
@@ -447,7 +447,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
     submitOnChange: boolean = this.props.control.submitOnChange
   ) {
     const {
-      formStore: form,
+      formStore: formStore,
       onChange,
       control: {validateOnChange, type},
       onBulkChange
@@ -478,9 +478,9 @@ export default class FormControl extends React.PureComponent<ControlProps> {
       return;
     }
 
-    form.setValues(values);
+    formStore.setValues(values);
 
-    if (validateOnChange !== false && (form.submited || this.model.validated)) {
+    if (validateOnChange !== false && (formStore.submited || this.model.validated)) {
       this.lazyValidate();
     }
 
@@ -493,24 +493,24 @@ export default class FormControl extends React.PureComponent<ControlProps> {
     }
 
     const {
-      formStore: form,
+      formStore: formStore,
       control: {pipeOut}
     } = this.props;
 
     if (pipeOut) {
       const oldValue = this.model.value;
-      value = pipeOut(value, oldValue, form.data);
+      value = pipeOut(value, oldValue, formStore.data);
     }
 
     this.model.changeValue(value, true);
   }
 
   getValue() {
-    const {formStore: form, control} = this.props;
+    const {formStore: formStore, control} = this.props;
     let value: any = this.model ? this.model.tmpValue : control.value;
 
     if (control.pipeIn) {
-      value = control.pipeIn(value, form.data);
+      value = control.pipeIn(value, formStore.data);
     }
 
     return value;
