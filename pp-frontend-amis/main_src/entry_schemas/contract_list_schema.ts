@@ -1,10 +1,10 @@
-import {RootSchema, SchemaApiObject} from '../../../types/amis/lib';
-import {PlainObject} from '../../../types/amis/lib/types';
-import {CRUDTableSchem} from '../../../types/amis/lib/renderers/CRUD';
-import {TableColumn} from '../../../types/amis/lib/renderers/Table';
-import {ActionSchema, ButtonSchema, DialogActionSchema} from '../../../types/amis/lib/renderers/Action';
+import type {RootSchema, SchemaApiObject} from '../../../src/';
+import type {PlainObject} from '../../../src/types';
+import type {CRUDTableSchem} from '../../../src/renderers/CRUD';
+import type {TableColumn} from '../../../src/renderers/Table';
+import type {ActionSchema} from '../../../src/renderers/Action';
 import {ODataHeadersBuilder} from '../utils/ODataHeadersBuilder';
-import {fc_contract} from '../types/dataverse/fc_contract';
+import type {fc_contract} from '../types/dataverse/fc_contract';
 
 // 点击新增按钮，弹出一个dialog
 const dialog_new_item = {
