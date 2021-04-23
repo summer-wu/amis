@@ -86,7 +86,7 @@ export function HocStoreFactory(renderer: {
             )
           );
         } else if (
-          this.props.scope ||
+          this.props.store?.data ||
           (this.props.data && (this.props.data as any).__super)
         ) {
           if (this.props.store && this.props.data === this.props.store.data) {
@@ -98,7 +98,7 @@ export function HocStoreFactory(renderer: {
           } else {
             store.initData(
               createObject(
-                (this.props.data as any).__super || this.props.scope,
+                (this.props.data as any).__super || this.props.store?.data,
                 {
                   ...this.formatData(this.props.defaultData),
                   ...this.formatData(this.props.data)
@@ -162,7 +162,7 @@ export function HocStoreFactory(renderer: {
                   : syncDataFromSuper(
                       store.data,
                       nextProps.store.data,
-                      props.scope,
+                      props.store?.data,
                       store,
                       nextProps.syncSuperStore === true
                     )
@@ -171,7 +171,7 @@ export function HocStoreFactory(renderer: {
           } else if (nextProps.data && (nextProps.data as any).__super) {
             store.initData(extendObject(nextProps.data));
           } else {
-            store.initData(createObject(nextProps.scope, nextProps.data));
+            store.initData(createObject(nextProps.store?.data, nextProps.data));
           }
         } else if (
           (shouldSync === true ||
@@ -198,12 +198,12 @@ export function HocStoreFactory(renderer: {
                 props.store?.storeType === 'CRUDStore'
             );
         } else if (
-          nextProps.scope &&
+          nextProps.store?.data &&
           nextProps.data === nextProps.store!.data &&
           (shouldSync === true || props.data !== nextProps.data)
         ) {
           store.initData(
-            createObject(nextProps.scope, {
+            createObject(nextProps.store?.data, {
               // ...nextProps.data,
               ...store.data
             })
