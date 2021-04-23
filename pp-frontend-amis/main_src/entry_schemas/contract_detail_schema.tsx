@@ -1,12 +1,12 @@
-import {RootSchema, SchemaApiObject} from '../../../types/amis/lib';
-import {PlainObject} from '../../../types/amis/lib/types';
-import {CRUDTableSchem} from '../../../types/amis/lib/renderers/CRUD';
-import {TableColumn} from '../../../types/amis/lib/renderers/Table';
-import {ActionSchema, ButtonSchema, DialogActionSchema} from '../../../types/amis/lib/renderers/Action';
+import {RootSchema, SchemaApiObject} from '../../../src/Schema';
+import {PlainObject} from '../../../src/types';
+import {CRUDTableSchem} from '../../../src/renderers/CRUD';
+import {TableColumn} from '../../../src/renderers/Table';
+import {ActionSchema, ButtonSchema, DialogActionSchema} from '../../../src/renderers/Action';
 import {ODataHeadersBuilder} from '../utils/ODataHeadersBuilder';
-import {WizardSchema, WizardStepSchema} from '../../../types/amis/lib/renderers/Wizard';
-import {FileControlSchema} from '../../../types/amis/lib/renderers/Form/File';
-import {get_hash_param_with_key, get_url_param_with_key} from '../utils/url_util';
+import {WizardSchema, WizardStepSchema} from '../../../src/renderers/Wizard';
+import {FileControlSchema} from '../../../src/renderers/Form/File';
+import {get_hash_param_with_key} from '../utils/url_util';
 import {contract_detail_step2_schema} from './contract_detail_step2_schema';
 
 const React = amisRequire('react');
@@ -14,6 +14,7 @@ const React = amisRequire('react');
 function get_step1_initApi(): undefined | object {
   const contractid = get_hash_param_with_key(location.hash, 'id');
   if (!contractid) {
+    console.log('没有contractid，当前是新建操作')
     return undefined;
   }
 
@@ -49,6 +50,7 @@ function get_step1_initApi(): undefined | object {
 const step1: WizardStepSchema = {
   debug:true,
   title: '基本信息',
+  debug: true,
   initApi: get_step1_initApi() as any,
   controls: [
     {label: '合同编码', type: 'text', name: 'fc_name', disabled: true},

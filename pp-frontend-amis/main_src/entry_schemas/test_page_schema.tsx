@@ -71,68 +71,76 @@ function ContractStep2AddProductFlexbox(props: IContractStep2FlexboxProps) {
 //   return <div>123</div>
 // }
 
+// const test_page_schema = {
+//   type: 'page',
+//   body: {
+//     type: '',
+//     itemActions:[
+//       {type:'button',label:'123123'}
+//     ],
+//     api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?waitSeconds=1',
+//     columns: [
+//       {
+//         name: 'id',
+//         label: 'ID'
+//       },
+//       {
+//         name: 'engine',
+//         label: 'Rendering engine',
+//         popOver: {
+//           body: {
+//             type: 'tpl',
+//             tpl: '${engine}'
+//           }
+//         }
+//       }
+//     ]
+//   }
+// };
+
 const test_page_schema = {
   type: 'page',
-  title: 'Hello world',
-  body: [
-    {
-      type: 'form',
-      title: '表单',
-      controls: [
-        {
-          type: 'ContractStep2AddProductFlexbox',
-          component: ContractStep2AddProductFlexbox
-        },
-        {
-          type: 'hbox',
-          columns: [{controls: [left_tree_schema]}, {controls: [arrow_btn_schema]}, {controls: [right_table_schema]}]
-        }
-      ]
-    }
-    // {
-    //   type: "hbox",
-    //   columns: [
-    //     {
-    //       type: "container",
-    //       body: [
-    //         {
-    //           type: "tpl",
-    //           tpl: "内容",
-    //           inline: false,
-    //         },
-    //       ],
-    //       bodyClassName: "b-a b-success",
-    //     },
-    //     {
-    //       type: "container",
-    //       body: [
-    //         {
-    //           type: "tpl",
-    //           tpl:
-    //             "内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容v",
-    //           inline: false,
-    //         },
-    //       ],
-    //     },
-    //   ],
-    //   className: "b-a b-error",
-    // },
-  ],
-  toolbar: [
-    {
-      type: 'button',
-      label: '按钮',
-      actionType: 'dialog',
-      dialog: {
-        title: '系统提示',
-        body: '对你点击了'
+  body: {
+    type: 'service',
+    api: 'https://3xsw4ap8wah59.cfc-execute.bj.baidubce.com/api/amis-mock/sample?perPage=5',
+    body: [
+      {
+        type: 'table',
+        itemActions: [
+          {type: 'button', label: 'itemAction0'},
+          {type: 'button', label: 'itemAction2'},
+          {type: 'plain', text: 'text0'}
+        ],
+        title: '表格1',
+        source: '$rows',
+        columns: [
+          {
+            name: 'engine',
+            label: 'Engine'
+          },
+          {
+            name: 'version',
+            label: 'Version'
+            // popOver: {
+            //   body: {
+            //     type: 'tpl',
+            //     tpl: '${engine}'
+            //   }
+            // }
+          },
+
+          {
+            type: 'operation',
+            body: [{type: 'button', label: 'itemAction0'}],
+            buttons: [
+              {type: 'button', label: 'itemAction0'},
+              {type: 'button', label: 'itemAction2'}
+            ]
+          }
+        ]
       }
-    },
-    {
-      type: 'reset',
-      label: '重置'
-    }
-  ]
+    ]
+  }
 };
 
 console.log('test_page_schema:\n', JSON.stringify(test_page_schema, null, 2));
