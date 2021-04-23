@@ -371,6 +371,13 @@ export default class FormControl extends React.PureComponent<ControlProps> {
     }
   }
 
+  // wrapper组件，只提供包裹功能、不提供数据录入功能
+  type_is_wrapper_component(type: string):boolean {
+    const idx = ['service', 'group', 'hbox', 'panel', 'grid'].indexOf(type);
+    const found:boolean = !!~idx;
+    return found;
+  }
+
   handleChange(
     value: any,
     submitOnChange: boolean = this.props.control.submitOnChange,
@@ -383,21 +390,21 @@ export default class FormControl extends React.PureComponent<ControlProps> {
       formInited
     } = this.props;
 
-    if (
-      !this.model ||
-      // todo 以后想办法不要強耦合类型。
-      ~['service', 'group', 'hbox', 'panel', 'grid'].indexOf(type)
-    ) {
+    if (this.type_is_wrapper_component(type)) {
       onChange && onChange.apply(null, arguments as any);
       return;
     }
 
-    if (pipeOut) {
-      const oldValue = this.model.value;
-      value = pipeOut(value, oldValue, formStore.data);
+    //仅当配置了name时才会创建this.model，而button不需要name
+    if (this.model){
+      if (pipeOut) {
+        const oldValue = this.model.value;
+        value = pipeOut(value, oldValue, formStore.data);
+      }
+
+      this.model.changeTmpValue(value);
     }
 
-    this.model.changeTmpValue(value);
     if (changeImmediately || conrolChangeImmediately || !formInited) {
       this.emitChange(submitOnChange);
     } else {
@@ -455,11 +462,7 @@ export default class FormControl extends React.PureComponent<ControlProps> {
 
     if (!isObject(values)) {
       return;
-    } else if (
-      !this.model ||
-      // todo 以后想办法不要強耦合类型。
-      ~['service', 'group', 'hbox', 'panel', 'grid'].indexOf(type)
-    ) {
+    } else if (this.type_is_wrapper_component(type)) {
       onBulkChange && onBulkChange(values);
       return;
     }
@@ -480,9 +483,13 @@ export default class FormControl extends React.PureComponent<ControlProps> {
 
     formStore.setValues(values);
 
-    if (validateOnChange !== false && (formStore.submited || this.model.validated)) {
-      this.lazyValidate();
+    //仅当配置了name时才会创建this.model，而button不需要name
+    if (this.model){
+      if (validateOnChange !== false && (formStore.submited || this.model.validated)) {
+        this.lazyValidate();
+      }
     }
+
 
     onChange && onChange(lastValue, lastKey, submitOnChange === true);
   }
