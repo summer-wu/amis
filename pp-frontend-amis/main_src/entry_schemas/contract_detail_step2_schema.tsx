@@ -70,6 +70,7 @@ function ContractStep2AddProductFlexbox(props: IContractStep2FlexboxProps) {
 
 const contract_detail_step2_schema: WizardStepSchema = {
   title: '授权产品',
+  debug:true,
   // initApi:undefined,
   controls: [
     {

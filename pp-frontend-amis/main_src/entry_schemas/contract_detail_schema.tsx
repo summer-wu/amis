@@ -47,6 +47,7 @@ function get_step1_initApi(): undefined | object {
 //   {name: 'fc_expirationdate@OData.Community.Display.V1.FormattedValue', label: '截止日期', sortable: true, type: 'date', toggled: true},
 //   {name: 'fc_htzt@OData.Community.Display.V1.FormattedValue', label: '合同状态', sortable: true, type: 'text', toggled: true},
 const step1: WizardStepSchema = {
+  debug:true,
   title: '基本信息',
   initApi: get_step1_initApi() as any,
   controls: [
