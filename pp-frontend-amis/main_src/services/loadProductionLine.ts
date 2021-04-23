@@ -305,7 +305,6 @@ function get_all_products_from_subnodes(subnodes: Array<IProduct>): IProduct[] {
   for (const product of subnodes) {
     if (product.children){
       const products_from_product_subnodes = get_all_products_from_subnodes(product.children || []);
-      delete product.children;
       products.push(...products_from_product_subnodes);
     }
     products.push(product);
@@ -335,9 +334,9 @@ function normalize_contract_item(product:IProduct):IContractItem{
   return item;
 }
 
-// tree_field是step2中，左侧的产品树
-export function get_all_contract_items_from_tree_field(tree_field:IProduct[]):IContractItem[]{
-  const products = get_all_products_from_subnodes(tree_field);
+// tree_field_selected_products是step2中，左侧的产品树，选中的产品。是一维array，其中有product.children，需要 打平 然后转为 合同条款
+export function get_all_contract_items_from_tree_field(tree_field_selected_products:IProduct[]):IContractItem[]{
+  const products = get_all_products_from_subnodes(tree_field_selected_products);
   const contract_items = products.map(normalize_contract_item);
   return contract_items;
 }

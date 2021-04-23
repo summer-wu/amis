@@ -20,7 +20,8 @@ const left_tree_schema: TreeControlSchema | any = {
 const right_table_schema = {
   style: {flex: 1},
   type: 'table',
-  name: 'table',
+  source: '${contract_items}',
+  name: 'contract_items',
   columnsTogglable: false, //不允许隐藏列
   label: '授权产品',
   columns: [
@@ -34,23 +35,17 @@ const right_table_schema = {
   ]
 };
 
-function sync_selected_products_to_table(data: any) {
-  const tree_field = data['tree'];
-  const contract_items = get_all_contract_items_from_tree_field(tree_field);
-  console.log(contract_items);
-}
-
 const arrow_btn_schema: ButtonControlSchema | any = {
   type: 'button',
   wrap: false,
   label: '→',
   level: 'primary',
-  actionType: 'onClickWithData',
   inputClassName: 'height-auto arrow-btn',
-  onClickWithData: (data: object) => {
-    // data是wizard中的所有数据
-    sync_selected_products_to_table(data);
-    console.log('onClickWithData', data);
+  onClick: (e: any, props: any) => {
+    // data是form中的数据，继承自wizard。点击按钮后，会调用onChange，更改form中的值
+    const tree_field_selected_products: Array<IProduct> = props.data?.tree;
+    const contract_items = get_all_contract_items_from_tree_field(tree_field_selected_products);
+    props.onBulkChange({contract_items});
   }
 };
 

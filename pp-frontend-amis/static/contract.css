@@ -5,3 +5,8 @@
 .arrow-btn {
   margin: 0 5px 10px 5px !important;
 }
+
+.a-TreeControl {
+  min-height: 300px !important;
+  max-height: 80vh !important;
+}
