@@ -8,13 +8,13 @@ import {WizardSchema, WizardStepSchema} from '../../../src/renderers/Wizard';
 import {FileControlSchema} from '../../../src/renderers/Form/File';
 import {get_hash_param_with_key} from '../utils/url_util';
 import {contract_detail_step2_schema} from './contract_detail_step2_schema';
+import React from 'react';
 
-const React = amisRequire('react');
 
 function get_step1_initApi(): undefined | object {
   const contractid = get_hash_param_with_key(location.hash, 'id');
   if (!contractid) {
-    console.log('没有contractid，当前是新建操作')
+    console.log('没有contractid，当前是新建操作');
     return undefined;
   }
 
@@ -48,9 +48,8 @@ function get_step1_initApi(): undefined | object {
 //   {name: 'fc_expirationdate@OData.Community.Display.V1.FormattedValue', label: '截止日期', sortable: true, type: 'date', toggled: true},
 //   {name: 'fc_htzt@OData.Community.Display.V1.FormattedValue', label: '合同状态', sortable: true, type: 'text', toggled: true},
 const step1: WizardStepSchema = {
-  debug:true,
   title: '基本信息',
-  debug: true,
+  debug: 'bottom',
   initApi: get_step1_initApi() as any,
   controls: [
     {label: '合同编码', type: 'text', name: 'fc_name', disabled: true},

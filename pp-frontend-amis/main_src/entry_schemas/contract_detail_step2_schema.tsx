@@ -4,8 +4,7 @@ import type {IIRendererStore} from '../../../src/store';
 import type {WizardStepSchema} from '../../../src/renderers/Wizard';
 import type {IProduct} from '../services/loadProductionLine';
 import {get_amis_options, get_all_contract_items_from_tree_field} from '../services/loadProductionLine';
-
-const React = amisRequire('react');
+import React from 'react';
 
 const left_tree_schema: TreeControlSchema | any = {
   type: 'tree',
@@ -29,9 +28,18 @@ const right_table_schema = {
     {label: '产品名称', name: 'productName'},
     {label: '产品规格', name: 'format'},
     {label: '标准价格', name: 'standardPrice'},
-    {label: '协议价格', name: 'negotiatedPrice'},
-    {label: '可用实物返利', name: 'rebateFlag'},
-    {label: '遵循价格手册', name: 'byBookPrice'}
+    {
+      label: '协议价格',
+      name: 'negotiatedPrice',
+      type: 'text',
+      validations: {isNumeric: true},
+      quickEdit: {
+        mode: 'inline',
+        type: 'text'
+      }
+    },
+    {label: '可用实物返利', name: 'rebateFlag', type: 'switch'},
+    {label: '遵循价格手册', name: 'byBookPrice', type: 'switch'}
   ]
 };
 
@@ -70,7 +78,7 @@ function ContractStep2AddProductFlexbox(props: IContractStep2FlexboxProps) {
 
 const contract_detail_step2_schema: WizardStepSchema = {
   title: '授权产品',
-  debug: true,
+  debug: 'bottom',
   // initApi:undefined,
   controls: [
     {
