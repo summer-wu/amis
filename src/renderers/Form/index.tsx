@@ -98,8 +98,9 @@ export interface FormSchema extends BaseSchema {
 
   /**
    * 是否开启调试，开启后会在顶部实时显示表单项数据。
+   * amis中进支持boolean类型。我增加了top和bottom，true和top是同义词
    */
-  debug?: boolean;
+  debug?: true | 'top' | 'bottom';
 
   /**
    * 用来初始化表单数据
@@ -1420,6 +1421,28 @@ export default class Form extends React.Component<FormProps, object> {
     );
   }
 
+  render_debug_area() {
+    return (
+      <pre>
+        <code>{JSON.stringify(this.props.store.data, null, 2)}</code>
+      </pre>
+    );
+  }
+
+  // debug有3个取值：true top bottom；true和top是同义词
+  try_render_debug_area(position: string) {
+    if (position === 'top') {
+      if (this.props.debug === true || this.props.debug === 'top') {
+        return this.render_debug_area();
+      }
+    } else if (position === 'bottom') {
+      if (this.props.debug === 'bottom') {
+        return this.render_debug_area();
+      }
+    }
+    return null;
+  }
+
   renderBody() {
     const {
       tabs,
@@ -1446,11 +1469,7 @@ export default class Form extends React.Component<FormProps, object> {
         onSubmit={this.handleFormSubmit}
         noValidate
       >
-        {debug ? (
-          <pre>
-            <code>{JSON.stringify(store.data, null, 2)}</code>
-          </pre>
-        ) : null}
+        {this.try_render_debug_area('top')}
 
         <Spinner show={store.loading} overlay />
 
@@ -1473,6 +1492,7 @@ export default class Form extends React.Component<FormProps, object> {
 
         {/* 实现回车自动提交 */}
         <input type="submit" style={{display: 'none'}} />
+        {this.try_render_debug_area('bottom')}
       </WrapperComponent>
     );
   }
