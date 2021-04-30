@@ -25,16 +25,14 @@ const infrastructureLogging: any = {
   }
 };
 
-//module 有很多种（js css json jpg png sass）。不同类型的module需要不同的处理方式。
+// module 有很多种（js css json jpg png sass）。不同类型的module需要不同的处理方式。
+// prettier-ignore
 let module = {
   rules: [
-    {
-      test: /\.tsx?$/,
-      loader: 'ts-loader',
-      options: {
-        transpileOnly: true
-      }
-    }
+    {test: /\.tsx?$/, use: [{loader: 'ts-loader', options: {transpileOnly: true}}] },
+    {test: /\.svg$/, use: ['@svgr/webpack']},
+    {test: /\.css$/i, use: ['style-loader', 'css-loader']},
+    {test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource',},
   ]
 };
 
@@ -42,7 +40,10 @@ const config: webpack.Configuration = {
   mode: 'development',
   context: path.resolve(__dirname, '..'),
   entry: {
-    main: './pp-frontend-amis/main_src/main.ts'
+    main: './pp-frontend-amis/main_src/main.tsx'
+  },
+  cache: {
+    type: 'filesystem'
   },
   output: {
     filename: '[name].bundle.js', //[id].[contenthash].[name].bundle.js
