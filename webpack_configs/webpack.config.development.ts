@@ -3,12 +3,15 @@ import * as webpack from 'webpack';
 
 const devServer = {
   inline: false, //改为iframe模式
-  writeToDisk: true
+  writeToDisk: true,
+  host: '0.0.0.0',
+  contentBase: path.resolve(__dirname, '..', 'dist'),
+  contentBasePublicPath: '/'
 };
 
-const stats:any = {
+const stats: any = {
   preset: 'verbose',
-  logging: 'none', //不显示stats中的logging
+  logging: 'none' //不显示stats中的logging
   // loggingDebug: (plugin_name: string) => {
   //   return true;
   // }
@@ -35,7 +38,7 @@ let module = {
   ]
 };
 
-const exports0: webpack.Configuration = {
+const config: webpack.Configuration = {
   mode: 'development',
   context: path.resolve(__dirname, '..'),
   entry: {
@@ -55,5 +58,5 @@ const exports0: webpack.Configuration = {
   infrastructureLogging
 };
 
-console.log('exports:', exports0);
-export default exports0;
+console.log('exports:', config);
+export default config;
