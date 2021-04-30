@@ -27,7 +27,7 @@ const infrastructureLogging: any = {
 
 // module 有很多种（js css json jpg png sass）。不同类型的module需要不同的处理方式。
 // prettier-ignore
-let module = {
+const module = {
   rules: [
     {test: /\.tsx?$/, use: [{loader: 'ts-loader', options: {transpileOnly: true}}] },
     {test: /\.svg$/, use: ['@svgr/webpack']},
@@ -35,6 +35,11 @@ let module = {
     {test: /\.(woff|woff2|eot|ttf|otf)$/i, type: 'asset/resource',},
   ]
 };
+
+const plugins = [
+  //如果不配置LimitChunkCountPlugin，会生成约20个js文件
+  new webpack.optimize.LimitChunkCountPlugin({maxChunks: 1})
+];
 
 const config: webpack.Configuration = {
   mode: 'development',
@@ -48,11 +53,13 @@ const config: webpack.Configuration = {
   output: {
     filename: '[name].bundle.js', //[id].[contenthash].[name].bundle.js
     chunkFilename: '[name].chunk.js',
+    assetModuleFilename: '[name][ext]',
     path: path.resolve(__dirname, '..', 'dist') //输出到这个目录
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
+  plugins,
   module,
   devServer,
   stats,
