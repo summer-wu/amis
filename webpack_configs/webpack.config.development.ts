@@ -6,18 +6,19 @@ const devServer = {
   writeToDisk: true
 };
 
-const stats = {
+const stats:any = {
   preset: 'verbose',
-  loggingDebug: (plugin_name: string) => {
-    return true;
-  }
+  logging: 'none', //不显示stats中的logging
+  // loggingDebug: (plugin_name: string) => {
+  //   return true;
+  // }
 };
 
 const infrastructureLogging: any = {
   appendOnly: true,
   level: 'verbose',
   debug: (name: string) => {
-    return false;
+    return true;
   }
 };
 
